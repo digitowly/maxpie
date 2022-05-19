@@ -14,24 +14,33 @@ const defaultList: SubscriptionType[] = [
   {
     id: '1',
     name: 'amazon',
-    amount: 7,
+    amount: '7',
   },
 ];
+
+const emptySubscription: SubscriptionType = {
+  id: '',
+  name: '',
+  amount: '',
+};
 
 export default function StartScreen(): JSX.Element {
   const [showModal, setShowModal] = React.useState(false);
   const [subscriptions, setSubscriptions] =
     React.useState<SubscriptionType[]>(defaultList);
   const [newSubscription, setNewSubscription] =
-    React.useState<SubscriptionType>({
-      id: '',
-      name: '',
-      amount: 0,
-    });
+    React.useState<SubscriptionType>(emptySubscription);
 
   function addNewSubscription() {
-    if (newSubscription.name && newSubscription.amount)
+    console.log('NEW:', newSubscription);
+    if (newSubscription.name && newSubscription.amount) {
       setSubscriptions((s) => [{ ...newSubscription, id: uuidv4() }, ...s]);
+      setNewSubscription(emptySubscription);
+    }
+  }
+
+  function removeSubscription(id: string) {
+    setSubscriptions((s) => s.filter((sub) => sub.id !== id));
   }
 
   console.log(subscriptions);
@@ -50,7 +59,10 @@ export default function StartScreen(): JSX.Element {
         <Button title='+' onPress={() => setShowModal(true)}></Button>
       </View>
       <View style={styles.container}>
-        <SubscriptionList subscriptions={subscriptions} />
+        <SubscriptionList
+          subscriptions={subscriptions}
+          removeItem={(id) => removeSubscription(id)}
+        />
         <View></View>
       </View>
       <MPModal
@@ -64,13 +76,8 @@ export default function StartScreen(): JSX.Element {
         }}
       >
         <SubscriptionCreator
-          update={(n, a) =>
-            setNewSubscription((ns) => ({
-              ...ns,
-              name: n,
-              amount: Number(a),
-            }))
-          }
+          newSubscription={newSubscription}
+          setNewSubscription={setNewSubscription}
         />
       </MPModal>
     </>

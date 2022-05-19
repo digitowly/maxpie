@@ -1,31 +1,31 @@
 import * as React from 'react';
-import { StyleSheet, TextInput as TextInputType } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { p } from '../../constants/Spacing';
-import { Text, TextInput, TextInputProps, View } from '../Themed';
+import { SubscriptionType } from '../Subscription/SubscriptionType';
+import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatorProps {
-  update: (name: string, amount: string) => void;
+  newSubscription: SubscriptionType;
+  setNewSubscription: React.Dispatch<React.SetStateAction<SubscriptionType>>;
 }
 
 export default function SubscriptionCreator({
-  update,
+  newSubscription,
+  setNewSubscription,
 }: SubscriptionCreatorProps): JSX.Element {
-  const [name, setName] = React.useState('');
-  const [amount, setAmount] = React.useState('');
-
-  React.useEffect(() => {
-    update(name, amount);
-  }, [name, amount]);
+  const { amount, name } = newSubscription;
 
   return (
-    <View>
+    <ScrollView>
       <View style={style.topSection}>
         <View style={style.amountWrapper}>
           <TextInput
             autoFocus
             style={style.amountInput}
-            value={amount}
-            onChangeText={(input) => setAmount(input)}
+            value={amount.toString() ?? ''}
+            onChangeText={(input) =>
+              setNewSubscription((s) => ({ ...s, amount: input }))
+            }
             placeholder='0,00'
             keyboardType='number-pad'
           />
@@ -34,10 +34,12 @@ export default function SubscriptionCreator({
       </View>
       <TextInput
         value={name}
-        onChangeText={(input) => setName(input)}
+        onChangeText={(input) =>
+          setNewSubscription((s) => ({ ...s, name: input }))
+        }
         placeholder='title'
       />
-    </View>
+    </ScrollView>
   );
 }
 
