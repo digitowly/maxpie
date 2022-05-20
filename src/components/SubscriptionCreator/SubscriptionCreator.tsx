@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import { colors } from '../../constants/Colors';
 import { p } from '../../constants/Spacing';
+import { SubscriptionType } from '../../types';
+import ColorPicker from '../ColorPicker/ColorPicker';
 import MPTextInput from '../Inputs/MPTextInput';
-import { SubscriptionType } from '../Subscription/SubscriptionType';
 import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatorProps {
@@ -14,7 +16,7 @@ export default function SubscriptionCreator({
   newSubscription,
   setNewSubscription,
 }: SubscriptionCreatorProps): JSX.Element {
-  const { amount, name } = newSubscription;
+  const { amount, name, color } = newSubscription;
 
   return (
     <ScrollView>
@@ -41,6 +43,11 @@ export default function SubscriptionCreator({
           setNewSubscription((s) => ({ ...s, name: input }))
         }
         placeholder='Enter name'
+      />
+      <ColorPicker
+        colors={colors}
+        activeColor={color}
+        setActiveColor={(color) => setNewSubscription((s) => ({ ...s, color }))}
       />
     </ScrollView>
   );

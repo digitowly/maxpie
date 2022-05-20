@@ -1,10 +1,11 @@
 import React from 'react';
 import { Pressable } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import MPModal from '../Modal/MPModal';
 import { Text, View } from '../Themed';
 import Subscription from '../Subscription/Subscription';
-import { SubscriptionType } from '../Subscription/SubscriptionType';
-import DraggableFlatList from 'react-native-draggable-flatlist';
+import SubscriptionTotal from './SubscriptionTotal';
+import { SubscriptionType } from '../../types';
 
 interface SbuscriptionListProps {
   subscriptions: SubscriptionType[];
@@ -21,10 +22,20 @@ export default function SubscriptionList({
   const [activeSubscription, setActiveSubscription] =
     React.useState<SubscriptionType | null>(null);
 
+  const totalAmount = React.useMemo(
+    () =>
+      subscriptions.reduce(
+        (currentAmount: number, sub) =>
+          currentAmount + Number(sub.amount.replace(',', '.')),
+        0
+      ),
+    [subscriptions]
+  );
+
   return (
     <View style={{ flex: 1 }}>
       <DraggableFlatList
-        style={{ height: '100%' }}
+        style={{ height: '85%' }}
         data={subscriptions}
         keyExtractor={({ id }) => id}
         onDragEnd={({ data }) => setList(data)}
@@ -39,6 +50,7 @@ export default function SubscriptionList({
           />
         )}
       />
+      <SubscriptionTotal totalAmount={totalAmount} />
       {activeSubscription && (
         <MPModal
           title={activeSubscription.name}

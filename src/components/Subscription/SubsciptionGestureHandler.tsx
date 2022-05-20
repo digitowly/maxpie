@@ -6,16 +6,19 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import { Color } from '../../types';
 import { subscriptionStyles } from './Subscription';
 
 interface SubscriptionGestureHandlerProps {
   children: React.ReactNode;
+  backgroundColor?: Color;
   onPress: () => void;
   onLongPress: () => void;
 }
 
 export default function SubscriptionGestureHandler({
   children,
+  backgroundColor,
   onPress,
   onLongPress,
 }: SubscriptionGestureHandlerProps): JSX.Element {
@@ -39,7 +42,7 @@ export default function SubscriptionGestureHandler({
             onLongPress();
             isPressed.value = false;
           }}
-          style={subscriptionStyles.wrapper}
+          style={[subscriptionStyles.wrapper, { backgroundColor }]}
           onPress={() => {
             onPress();
             isPressed.value = true;

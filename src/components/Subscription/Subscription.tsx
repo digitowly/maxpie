@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Text } from '../Themed';
 import { StyleSheet } from 'react-native';
 import SubscriptionGestureHandler from './SubsciptionGestureHandler';
-import { SubscriptionType } from './SubscriptionType';
+import { price } from '../../helper/price';
+import { SubscriptionType } from '../../types';
 
 interface SubscriptionProps {
   subscription: SubscriptionType;
@@ -15,12 +16,16 @@ export default function Subscription({
   showDetail,
   drag,
 }: SubscriptionProps): JSX.Element {
-  const { name, amount } = subscription;
+  const { name, amount, color } = subscription;
 
   return (
-    <SubscriptionGestureHandler onLongPress={drag} onPress={showDetail}>
-      <Text>{name}</Text>
-      <Text>{amount}</Text>
+    <SubscriptionGestureHandler
+      onLongPress={drag}
+      onPress={showDetail}
+      backgroundColor={color}
+    >
+      <Text style={subscriptionStyles.text}>{name}</Text>
+      <Text style={subscriptionStyles.text}>{price(amount)}</Text>
     </SubscriptionGestureHandler>
   );
 }
@@ -32,9 +37,13 @@ export const subscriptionStyles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 24,
-    color: 'white',
     borderRadius: 6,
     marginVertical: 5,
     marginHorizontal: 20,
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15,
   },
 });
