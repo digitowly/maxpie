@@ -43,12 +43,16 @@ export function Text(props: TextProps) {
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
-export function TextInput(props: TextInputProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
-  return <DefaultTextInput style={[{ color }, style]} {...otherProps} />;
-}
+export const TextInput = React.forwardRef<DefaultTextInput, TextInputProps>(
+  (props, ref) => {
+    const { style, lightColor, darkColor, ...otherProps } = props;
+    const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+    return (
+      <DefaultTextInput ref={ref} style={[{ color }, style]} {...otherProps} />
+    );
+  }
+);
 
 export function View(props: ViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;

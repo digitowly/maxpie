@@ -1,29 +1,36 @@
 import React from 'react';
-import { Button, FlatList, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import MPModal from '../Modal/MPModal';
-import { Text } from '../Themed';
+import { Text, View } from '../Themed';
 import Subscription from '../Subscription/Subscription';
 import { SubscriptionType } from '../Subscription/SubscriptionType';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 interface SbuscriptionListProps {
   subscriptions: SubscriptionType[];
   removeItem: (id: string) => void;
+  setList: React.Dispatch<React.SetStateAction<SubscriptionType[]>>;
 }
 
 export default function SubscriptionList({
   subscriptions,
   removeItem,
+  setList,
 }: SbuscriptionListProps): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
   const [activeSubscription, setActiveSubscription] =
     React.useState<SubscriptionType | null>(null);
 
   return (
-    <>
-      <FlatList
+    <View style={{ flex: 1 }}>
+      <DraggableFlatList
+        style={{ height: '100%' }}
         data={subscriptions}
-        renderItem={({ item }) => (
+        keyExtractor={({ id }) => id}
+        onDragEnd={({ data }) => setList(data)}
+        renderItem={({ item, drag }) => (
           <Subscription
+            drag={drag}
             subscription={item}
             showDetail={() => {
               setActiveSubscription(item);
@@ -48,6 +55,6 @@ export default function SubscriptionList({
           </Pressable>
         </MPModal>
       )}
-    </>
+    </View>
   );
 }

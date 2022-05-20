@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { p } from '../../constants/Spacing';
+import MPTextInput from '../Inputs/MPTextInput';
 import { SubscriptionType } from '../Subscription/SubscriptionType';
 import { Text, TextInput, View } from '../Themed';
 
@@ -27,17 +28,19 @@ export default function SubscriptionCreator({
               setNewSubscription((s) => ({ ...s, amount: input }))
             }
             placeholder='0,00'
-            keyboardType='number-pad'
+            keyboardType='numeric'
+            returnKeyType='done'
           />
           <Text style={style.amountCurrency}>€</Text>
         </View>
       </View>
-      <TextInput
+      <MPTextInput
+        label='Name'
         value={name}
         onChangeText={(input) =>
           setNewSubscription((s) => ({ ...s, name: input }))
         }
-        placeholder='title'
+        placeholder='Enter name'
       />
     </ScrollView>
   );

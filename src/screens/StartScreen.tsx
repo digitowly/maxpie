@@ -13,8 +13,23 @@ import { Text, View } from '../components/Themed';
 const defaultList: SubscriptionType[] = [
   {
     id: '1',
-    name: 'amazon',
+    name: 'Amazon',
     amount: '7',
+  },
+  {
+    id: '2',
+    name: 'Netflix',
+    amount: '9',
+  },
+  {
+    id: '3',
+    name: 'Google',
+    amount: '2',
+  },
+  {
+    id: '4',
+    name: 'Apple',
+    amount: '3',
   },
 ];
 
@@ -26,8 +41,10 @@ const emptySubscription: SubscriptionType = {
 
 export default function StartScreen(): JSX.Element {
   const [showModal, setShowModal] = React.useState(false);
+
   const [subscriptions, setSubscriptions] =
     React.useState<SubscriptionType[]>(defaultList);
+
   const [newSubscription, setNewSubscription] =
     React.useState<SubscriptionType>(emptySubscription);
 
@@ -43,7 +60,6 @@ export default function StartScreen(): JSX.Element {
     setSubscriptions((s) => s.filter((sub) => sub.id !== id));
   }
 
-  console.log(subscriptions);
   return (
     <>
       <View
@@ -60,6 +76,7 @@ export default function StartScreen(): JSX.Element {
       </View>
       <View style={styles.container}>
         <SubscriptionList
+          setList={setSubscriptions}
           subscriptions={subscriptions}
           removeItem={(id) => removeSubscription(id)}
         />
