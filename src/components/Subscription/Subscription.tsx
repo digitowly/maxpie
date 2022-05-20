@@ -1,12 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import * as React from 'react';
 import { Text } from '../Themed';
+import { StyleSheet } from 'react-native';
+import SubscriptionGestureHandler from './SubsciptionGestureHandler';
 import { SubscriptionType } from './SubscriptionType';
 
 interface SubscriptionProps {
@@ -22,43 +17,15 @@ export default function Subscription({
 }: SubscriptionProps): JSX.Element {
   const { name, amount } = subscription;
 
-  const isPressed = useSharedValue(false);
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withSpring(isPressed.value ? 1.1 : 1),
-        },
-      ],
-    };
-  });
-
   return (
-    <ScaleDecorator>
-      <Animated.View style={animatedStyles}>
-        <TouchableWithoutFeedback
-          onLongPress={() => {
-            drag();
-            isPressed.value = false;
-          }}
-          style={styles.wrapper}
-          onPress={() => {
-            showDetail();
-            isPressed.value = true;
-            setTimeout(() => {
-              isPressed.value = false;
-            }, 300);
-          }}
-        >
-          <Text>{name}</Text>
-          <Text>{amount}</Text>
-        </TouchableWithoutFeedback>
-      </Animated.View>
-    </ScaleDecorator>
+    <SubscriptionGestureHandler onLongPress={drag} onPress={showDetail}>
+      <Text>{name}</Text>
+      <Text>{amount}</Text>
+    </SubscriptionGestureHandler>
   );
 }
 
-const styles = StyleSheet.create({
+export const subscriptionStyles = StyleSheet.create({
   wrapper: {
     backgroundColor: 'lightgray',
     flexDirection: 'row',
