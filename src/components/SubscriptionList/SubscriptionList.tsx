@@ -24,11 +24,10 @@ export default function SubscriptionList({
 
   const totalAmount = React.useMemo(
     () =>
-      subscriptions.reduce(
-        (currentAmount: number, sub) =>
-          currentAmount + Number(sub.amount.replace(',', '.')),
-        0
-      ),
+      subscriptions.reduce((currentAmount: number, sub) => {
+        const subAmount = Number(sub.amount ?? 0);
+        return currentAmount + subAmount;
+      }, 0),
     [subscriptions]
   );
 
@@ -50,7 +49,7 @@ export default function SubscriptionList({
           />
         )}
       />
-      <SubscriptionTotal totalAmount={totalAmount} />
+      <SubscriptionTotal defaultAmount={totalAmount} />
       {activeSubscription && (
         <MPModal
           title={activeSubscription.name}

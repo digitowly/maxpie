@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { Color } from '../../types';
-import { subscriptionStyles } from './Subscription';
+import { subscriptionStyles } from './Subscription.style';
 
 interface SubscriptionGestureHandlerProps {
   children: React.ReactNode;

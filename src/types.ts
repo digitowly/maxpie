@@ -1,7 +1,7 @@
 export type SubscriptionType = {
   id: string;
   name: string;
-  amount: string;
+  amount: number | string;
   color: Color;
 };
 

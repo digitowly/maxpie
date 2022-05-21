@@ -1,25 +1,85 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import Animated, {
+  FadeInUp,
+  FadeOutDown,
+  FlipInXUp,
+} from 'react-native-reanimated';
 import { p } from '../../constants/Spacing';
 import { price } from '../../helper/price';
+import useColorScheme from '../../hooks/useColorScheme';
 import { View, Text } from '../Themed';
 
+enum Rate {
+  perWeek = 'Week',
+  perMonth = 'Month',
+  perYear = 'Year',
+}
+
 interface SubscriptionTotalProps {
-  totalAmount: number;
+  defaultAmount: number;
 }
 
 export default function SubscriptionTotal({
-  totalAmount,
+  defaultAmount,
 }: SubscriptionTotalProps): JSX.Element {
+  const colorScheme = useColorScheme();
+
+  const [rate, setRate] = React.useState<Rate>(Rate.perMonth);
+
+  console.log(defaultAmount);
+
+  function setNextRate() {
+    if (rate === Rate.perWeek) {
+      return setRate(Rate.perMonth);
+    }
+    if (rate === Rate.perMonth) {
+      return setRate(Rate.perYear);
+    }
+    if (rate === Rate.perYear) {
+      return setRate(Rate.perWeek);
+    }
+  }
+  function getAmount() {
+    if (rate === Rate.perWeek) {
+      return defaultAmount / 4;
+    }
+    if (rate === Rate.perMonth) {
+      return defaultAmount;
+    }
+    if (rate === Rate.perYear) {
+      return defaultAmount * 12;
+    }
+    return 0;
+  }
+
   return (
-    <View style={style.wrapper}>
+    <Pressable
+      onPress={() => setNextRate()}
+      style={[
+        style.wrapper,
+        { borderColor: colorScheme === 'light' ? 'lightgrey' : 'grey' },
+      ]}
+    >
       <View>
-        <Text style={style.periodText}>Total </Text>
+        <Text style={style.totalText}>Expenses </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={style.periodText}>per </Text>
+          <Animated.View key={rate} entering={FadeInUp} exiting={FadeOutDown}>
+            <Text style={style.periodText}>{rate}</Text>
+          </Animated.View>
+        </View>
       </View>
-      <Text style={style.amountText}>
-        {price(totalAmount.toFixed(2).toString())}
-      </Text>
-    </View>
+      <Animated.View
+        key={rate}
+        entering={FlipInXUp.springify()}
+        exiting={FadeOutDown.springify()}
+      >
+        <Text style={style.amountText}>
+          {price(getAmount().toFixed(2).toString())}
+        </Text>
+      </Animated.View>
+    </Pressable>
   );
 }
 
@@ -30,11 +90,15 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: p.md,
-    borderColor: 'lightgrey',
     borderTopWidth: 1,
   },
+  totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
   periodText: {
-    fontSize: 20,
+    fontSize: 18,
     color: 'grey',
     fontWeight: 'bold',
   },

@@ -14,25 +14,25 @@ const defaultList: SubscriptionType[] = [
   {
     id: '1',
     name: 'Amazon',
-    amount: '7',
+    amount: 7.99,
     color: Color.orange,
   },
   {
     id: '2',
     name: 'Netflix',
-    amount: '9',
+    amount: 9.5,
     color: Color.red,
   },
   {
     id: '3',
     name: 'Google',
-    amount: '2',
+    amount: 1.99,
     color: Color.blue,
   },
   {
     id: '4',
     name: 'Apple',
-    amount: '3',
+    amount: 2.99,
     color: Color.green,
   },
 ];
@@ -40,7 +40,7 @@ const defaultList: SubscriptionType[] = [
 const emptySubscription: SubscriptionType = {
   id: '',
   name: '',
-  amount: '',
+  amount: 0,
   color: Color.orange,
 };
 

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Text } from '../Themed';
-import { StyleSheet } from 'react-native';
 import SubscriptionGestureHandler from './SubsciptionGestureHandler';
 import { price } from '../../helper/price';
 import { SubscriptionType } from '../../types';
+import { subscriptionStyles } from './Subscription.style';
 
 interface SubscriptionProps {
   subscription: SubscriptionType;
@@ -25,25 +25,9 @@ export default function Subscription({
       backgroundColor={color}
     >
       <Text style={subscriptionStyles.text}>{name}</Text>
-      <Text style={subscriptionStyles.text}>{price(amount)}</Text>
+      <Text style={subscriptionStyles.text}>
+        {price(Number(amount).toString())}
+      </Text>
     </SubscriptionGestureHandler>
   );
 }
-
-export const subscriptionStyles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: 'lightgray',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 24,
-    borderRadius: 6,
-    marginVertical: 5,
-    marginHorizontal: 20,
-  },
-  text: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-});
