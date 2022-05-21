@@ -2,21 +2,24 @@ import * as React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { colors } from '../../constants/Colors';
 import { p } from '../../constants/Spacing';
-import { SubscriptionType } from '../../types';
+import { Color, SubscriptionType } from '../../types';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import MPTextInput from '../Inputs/MPTextInput';
 import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatorProps {
-  newSubscription: SubscriptionType;
-  setNewSubscription: React.Dispatch<React.SetStateAction<SubscriptionType>>;
+  setNewSubscription: (newSubscription: SubscriptionType) => void;
 }
 
 export default function SubscriptionCreator({
-  newSubscription,
   setNewSubscription,
 }: SubscriptionCreatorProps): JSX.Element {
-  const { amount, name, color } = newSubscription;
+  const [amount, setAmount] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [color, setColor] = React.useState<Color>(Color.orange);
+
+  const handleSubscriptionSet = () =>
+    setNewSubscription({ id: '', amount, name, color });
 
   return (
     <ScrollView>
@@ -25,10 +28,10 @@ export default function SubscriptionCreator({
           <TextInput
             autoFocus
             style={style.amountInput}
-            value={amount.toString() ?? ''}
-            onChangeText={(input) =>
-              setNewSubscription((s) => ({ ...s, amount: input }))
-            }
+            onChangeText={(input) => {
+              setAmount(input);
+              handleSubscriptionSet();
+            }}
             placeholder='0,00'
             keyboardType='numeric'
             returnKeyType='done'
@@ -38,16 +41,19 @@ export default function SubscriptionCreator({
       </View>
       <MPTextInput
         label='Name'
-        value={name}
-        onChangeText={(input) =>
-          setNewSubscription((s) => ({ ...s, name: input }))
-        }
+        onChangeText={(input) => {
+          setName(input);
+          handleSubscriptionSet();
+        }}
         placeholder='Enter name'
       />
       <ColorPicker
         colors={colors}
         activeColor={color}
-        setActiveColor={(color) => setNewSubscription((s) => ({ ...s, color }))}
+        setActiveColor={(color) => {
+          setColor(color);
+          handleSubscriptionSet();
+        }}
       />
     </ScrollView>
   );

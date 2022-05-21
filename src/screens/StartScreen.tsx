@@ -50,14 +50,20 @@ export default function StartScreen(): JSX.Element {
   const [subscriptions, setSubscriptions] =
     React.useState<SubscriptionType[]>(defaultList);
 
-  const [newSubscription, setNewSubscription] =
-    React.useState<SubscriptionType>(emptySubscription);
+  const newSubscriptionRef = React.useRef<SubscriptionType>(emptySubscription);
+
+  function updateNewSubscription(newSub: SubscriptionType) {
+    newSubscriptionRef.current = newSub;
+  }
 
   function addNewSubscription() {
-    console.log('NEW:', newSubscription);
-    if (newSubscription.name && newSubscription.amount) {
-      setSubscriptions((s) => [{ ...newSubscription, id: uuidv4() }, ...s]);
-      setNewSubscription(emptySubscription);
+    console.log('NEW:', newSubscriptionRef.current);
+    if (newSubscriptionRef.current.name && newSubscriptionRef.current.amount) {
+      setSubscriptions((s) => [
+        { ...newSubscriptionRef.current, id: uuidv4() },
+        ...s,
+      ]);
+      updateNewSubscription(emptySubscription);
     }
   }
 
@@ -97,10 +103,7 @@ export default function StartScreen(): JSX.Element {
           setShowModal(false);
         }}
       >
-        <SubscriptionCreator
-          newSubscription={newSubscription}
-          setNewSubscription={setNewSubscription}
-        />
+        <SubscriptionCreator setNewSubscription={updateNewSubscription} />
       </MPModal>
     </>
   );
