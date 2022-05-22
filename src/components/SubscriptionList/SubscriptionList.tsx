@@ -47,7 +47,7 @@ export default function SubscriptionList(): JSX.Element {
         keyExtractor={({ id }) => id}
         onDragEnd={({ data }) =>
           setLibrary({
-            categoryId: categoryId,
+            categoryId: categoryId ?? 'all',
             newSubscriptions: data,
           })
         }

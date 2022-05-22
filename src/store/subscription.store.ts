@@ -4,6 +4,36 @@ import { SubscriptionRegister, SubscriptionType } from '../types';
 
 const defaultSubscriptions: SubscriptionRegister[] = [
   {
+    category: { id: 'all', name: 'all' },
+    subscriptions: [
+      {
+        id: '1',
+        name: 'Amazon',
+        amount: 7.99,
+        category: categories[0],
+      },
+      {
+        id: '3',
+        name: 'Google',
+        amount: 1.99,
+        category: categories[0],
+      },
+      {
+        id: '2',
+        name: 'Netflix',
+        amount: 9.5,
+        category: categories[1],
+      },
+
+      {
+        id: '4',
+        name: 'Apple',
+        amount: 2.99,
+        category: categories[2],
+      },
+    ],
+  },
+  {
     category: categories[0],
     subscriptions: [
       {

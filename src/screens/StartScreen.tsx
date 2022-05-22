@@ -58,6 +58,7 @@ export default function StartScreen(): JSX.Element {
         <SubscriptionCreator />
       </MPModal>
       <CategoryPicker
+        isStart
         visible={showCategoryPicker}
         hide={() => setShowCategoryPicker(false)}
         updateCategory={setActiveCategoy}

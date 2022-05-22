@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
-import { Category } from '../../types';
+import { Category, SubscriptionType } from '../../types';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
@@ -23,11 +23,22 @@ export default function SubscriptionCreator(): JSX.Element {
   );
 
   const createSubscription = () => {
-    if (amount && name)
+    if (amount && name) {
+      const newSubscription: SubscriptionType = {
+        id: uuidv4(),
+        amount,
+        name,
+        category,
+      };
       addSubscription({
         categoryId: category.id,
-        newSubscription: { id: uuidv4(), amount, name, category },
+        newSubscription,
       });
+      addSubscription({
+        categoryId: 'all',
+        newSubscription,
+      });
+    }
   };
 
   return (
@@ -58,7 +69,7 @@ export default function SubscriptionCreator(): JSX.Element {
         />
 
         <CategoryPicker
-          updateCategory={setCategory}
+          updateCategory={(cat) => cat && setCategory(cat)}
           visible={showCategories}
           hide={() => setShowCategories(false)}
         />
