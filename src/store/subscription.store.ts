@@ -1,155 +1,125 @@
 import create from 'zustand';
-import { categories } from '../helper/categories';
+import { data, defaultSubscriptions } from '../data/defaultData';
 import { SubscriptionRegister, SubscriptionType } from '../types';
 
-const defaultSubscriptions: SubscriptionRegister[] = [
-  {
-    category: { id: 'all', name: 'all' },
-    subscriptions: [
-      {
-        id: '1',
-        name: 'Amazon',
-        amount: 7.99,
-        category: categories[0],
-      },
-      {
-        id: '3',
-        name: 'Google',
-        amount: 1.99,
-        category: categories[0],
-      },
-      {
-        id: '2',
-        name: 'Netflix',
-        amount: 9.5,
-        category: categories[1],
-      },
-
-      {
-        id: '4',
-        name: 'Apple',
-        amount: 2.99,
-        category: categories[2],
-      },
-    ],
-  },
-  {
-    category: categories[0],
-    subscriptions: [
-      {
-        id: '1',
-        name: 'Amazon',
-        amount: 7.99,
-        category: categories[0],
-      },
-      {
-        id: '3',
-        name: 'Google',
-        amount: 1.99,
-        category: categories[0],
-      },
-    ],
-  },
-  {
-    category: categories[1],
-    subscriptions: [
-      {
-        id: '2',
-        name: 'Netflix',
-        amount: 9.5,
-        category: categories[1],
-      },
-    ],
-  },
-  {
-    category: categories[2],
-    subscriptions: [
-      {
-        id: '4',
-        name: 'Apple',
-        amount: 2.99,
-        category: categories[2],
-      },
-    ],
-  },
-];
-
 interface SubscriptionState {
+  data: Map<string, SubscriptionType>;
+  addData: (newSubscription: SubscriptionType) => void;
+
   library: SubscriptionRegister[];
   setLibrary: ({
     categoryId,
-    newSubscriptions,
+    newSubscriptionIds,
   }: {
     categoryId?: string;
-    newSubscriptions: SubscriptionType[];
+    newSubscriptionIds: string[];
   }) => void;
-  addSubscription: ({
-    newSubscription,
+
+  addSubscriptionIdToLibrary: ({
+    newSubscriptionId,
     categoryId,
   }: {
-    newSubscription: SubscriptionType;
+    newSubscriptionId: string;
     categoryId: string;
   }) => void;
+
+  removeSubscription: (subscriptionId: string) => void;
 }
 
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
+  data: data,
+  addData: (newSubscription) =>
+    set((state) => ({
+      ...state,
+      data: state.data.set(newSubscription.id, newSubscription),
+    })),
+
   library: defaultSubscriptions,
-  setLibrary: ({ categoryId, newSubscriptions }) =>
+  setLibrary: ({ categoryId, newSubscriptionIds }) =>
     set((state) => ({
       ...state,
       library: libraryWithNewSubscriptions({
         state,
         categoryId,
-        newSubscriptions,
+        newSubscriptionIds,
       }),
     })),
 
-  addSubscription: ({ categoryId, newSubscription }) =>
+  addSubscriptionIdToLibrary: ({ categoryId, newSubscriptionId }) =>
     set((state) => ({
       ...state,
       library: libraryWithNewSubscription({
         state,
         categoryId,
-        newSubscription,
+        newSubscriptionId,
       }),
     })),
+
+  removeSubscription: (subscriptionId) =>
+    set((state) => {
+      state.data.delete(subscriptionId);
+      return {
+        ...state,
+        library: libraryWithoutSubscription({ state, subscriptionId }),
+      };
+    }),
 }));
 
 function libraryWithNewSubscriptions({
   state,
   categoryId,
-  newSubscriptions,
+  newSubscriptionIds,
 }: {
   state: SubscriptionState;
   categoryId?: string;
-  newSubscriptions: SubscriptionType[];
+  newSubscriptionIds: string[];
 }) {
   return state.library.map((sub) => {
     if (sub.category.id === categoryId) {
       return {
         ...sub,
-        subscriptions: newSubscriptions,
+        subscriptionIds: newSubscriptionIds,
       };
     }
     return sub;
   });
 }
+
 function libraryWithNewSubscription({
   state,
   categoryId,
-  newSubscription,
+  newSubscriptionId,
 }: {
   state: SubscriptionState;
   categoryId?: string;
-  newSubscription: SubscriptionType;
+  newSubscriptionId: string;
 }) {
   return state.library.map((sub) => {
     if (sub.category.id === categoryId) {
       return {
         ...sub,
-        subscriptions: [newSubscription, ...sub.subscriptions],
+        subscriptionIds: [newSubscriptionId, ...sub.subscriptionIds],
       };
     }
     return sub;
+  });
+}
+
+function libraryWithoutSubscription({
+  state,
+  subscriptionId,
+}: {
+  state: SubscriptionState;
+  subscriptionId: string;
+}) {
+  return state.library.map((sub) => {
+    const newSubIds = sub.subscriptionIds.filter(
+      (subId) => subId !== subscriptionId
+    );
+
+    return {
+      ...sub,
+      subscriptionIds: newSubIds,
+    };
   });
 }

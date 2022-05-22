@@ -9,20 +9,11 @@ import CategoryPicker from '../components/CategoryPicker/CategoryPicker';
 import { useStore } from '../store';
 
 export default function StartScreen(): JSX.Element {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showCreatorModal, setShowCreatorModal] = React.useState(false);
+  const [showCategoryPicker, setShowCategoryPicker] = React.useState(false);
 
   const activeCategory = useStore((state) => state.activeCategory);
   const setActiveCategoy = useStore((state) => state.setActiveCategoy);
-
-  const [showCategoryPicker, setShowCategoryPicker] = React.useState(false);
-
-  //   function updateNewSubscription(newSub: SubscriptionType) {
-  //     newSubscriptionRef.current = newSub;
-  //   }
-
-  //   function removeSubscription(id: string) {
-  //     setSubscriptions((s) => s.filter((sub) => sub.id !== id));
-  //   }
 
   return (
     <>
@@ -44,7 +35,7 @@ export default function StartScreen(): JSX.Element {
         ) : (
           <Button title='all' onPress={() => setShowCategoryPicker(true)} />
         )}
-        <Button title='+' onPress={() => setShowModal(true)}></Button>
+        <Button title='+' onPress={() => setShowCreatorModal(true)}></Button>
       </View>
       <View style={styles.container}>
         <SubscriptionList />
@@ -52,10 +43,10 @@ export default function StartScreen(): JSX.Element {
       </View>
       <MPModal
         title='New Subscription'
-        visible={showModal}
-        close={() => setShowModal(false)}
+        visible={showCreatorModal}
+        close={() => setShowCreatorModal(false)}
       >
-        <SubscriptionCreator />
+        <SubscriptionCreator hide={() => setShowCreatorModal(false)} />
       </MPModal>
       <CategoryPicker
         isStart

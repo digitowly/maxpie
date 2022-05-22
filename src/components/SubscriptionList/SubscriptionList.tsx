@@ -14,26 +14,34 @@ export default function SubscriptionList(): JSX.Element {
   const [activeSubscription, setActiveSubscription] =
     React.useState<SubscriptionType | null>(null);
 
+  const subscriptionData = useSubscriptionStore((state) => state.data);
   const library = useSubscriptionStore((state) => state.library);
   const setLibrary = useSubscriptionStore((state) => state.setLibrary);
+  const removeSubscription = useSubscriptionStore(
+    (state) => state.removeSubscription
+  );
 
   const activeCategory = useStore((state) => state.activeCategory);
 
   const categoryId = activeCategory?.id;
-  const subscriptionsList: SubscriptionRegister = React.useMemo(() => {
+  const subscriptionsList = React.useMemo(() => {
+    let usedLib: SubscriptionRegister = library[0];
     if (categoryId) {
-      return (
-        library.find((sub) => sub.category.id === categoryId) ?? library[0]
-      );
-    } else {
-      return library[0];
+      usedLib =
+        library.find((libEntry) => libEntry.category.id === categoryId) ??
+        library[0];
     }
+    return usedLib.subscriptionIds.reduce((items: SubscriptionType[], id) => {
+      const item = subscriptionData.get(id);
+      if (item) items.push(item);
+      return items;
+    }, []);
   }, [library, categoryId]);
 
   const totalAmount = React.useMemo(
     () =>
-      subscriptionsList?.subscriptions.reduce((currentAmount: number, sub) => {
-        const subAmount = Number(sub.amount ?? 0);
+      subscriptionsList.reduce((currentAmount: number, sub) => {
+        const subAmount = Number(sub?.amount ?? 0);
         return currentAmount + subAmount;
       }, 0),
     [subscriptionsList]
@@ -43,14 +51,15 @@ export default function SubscriptionList(): JSX.Element {
     <View style={{ flex: 1 }}>
       <DraggableFlatList
         style={{ height: '85%' }}
-        data={subscriptionsList?.subscriptions}
+        data={subscriptionsList}
         keyExtractor={({ id }) => id}
-        onDragEnd={({ data }) =>
+        onDragEnd={({ data }) => {
+          const dataIds = data.map((d) => d.id);
           setLibrary({
             categoryId: categoryId ?? 'all',
-            newSubscriptions: data,
-          })
-        }
+            newSubscriptionIds: dataIds,
+          });
+        }}
         renderItem={({ item, drag }) => (
           <Subscription
             drag={drag}
@@ -71,7 +80,7 @@ export default function SubscriptionList(): JSX.Element {
         >
           <Pressable
             onPress={() => {
-              //   removeItem(activeSubscription.id);
+              removeSubscription(activeSubscription.id);
               setShowDetail(false);
             }}
           >

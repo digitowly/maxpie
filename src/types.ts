@@ -15,7 +15,7 @@ export enum Color {
 
 export type SubscriptionRegister = {
   category: Category | { id: 'all'; name: 'all' };
-  subscriptions: SubscriptionType[];
+  subscriptionIds: string[];
 };
 
 export type Category = {

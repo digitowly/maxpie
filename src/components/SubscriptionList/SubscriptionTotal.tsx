@@ -27,8 +27,6 @@ export default function SubscriptionTotal({
 
   const [rate, setRate] = React.useState<Rate>(Rate.perMonth);
 
-  console.log(defaultAmount);
-
   function setNextRate() {
     if (rate === Rate.perWeek) {
       return setRate(Rate.perMonth);

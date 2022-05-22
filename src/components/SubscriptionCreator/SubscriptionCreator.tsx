@@ -11,16 +11,23 @@ import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
 import { Text, TextInput, View } from '../Themed';
 
-export default function SubscriptionCreator(): JSX.Element {
+interface SubscriptionCreatprProps {
+  hide: () => void;
+}
+
+export default function SubscriptionCreator({
+  hide,
+}: SubscriptionCreatprProps): JSX.Element {
   const [amount, setAmount] = React.useState('');
   const [name, setName] = React.useState('');
   const [category, setCategory] = React.useState<Category>(defaultCategory);
 
   const [showCategories, setShowCategories] = React.useState(false);
 
-  const addSubscription = useSubscriptionStore(
-    (state) => state.addSubscription
+  const addSubscriptionIdToLibrary = useSubscriptionStore(
+    (state) => state.addSubscriptionIdToLibrary
   );
+  const addData = useSubscriptionStore((state) => state.addData);
 
   const createSubscription = () => {
     if (amount && name) {
@@ -30,14 +37,24 @@ export default function SubscriptionCreator(): JSX.Element {
         name,
         category,
       };
-      addSubscription({
+
+      // add item id to custom category
+      addSubscriptionIdToLibrary({
         categoryId: category.id,
-        newSubscription,
+        newSubscriptionId: newSubscription.id,
       });
-      addSubscription({
+
+      // also always add item id to 'all' category
+      addSubscriptionIdToLibrary({
         categoryId: 'all',
-        newSubscription,
+        newSubscriptionId: newSubscription.id,
       });
+
+      // add item to data
+      addData(newSubscription);
+
+      // hide modal
+      hide();
     }
   };
 
