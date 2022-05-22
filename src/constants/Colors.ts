@@ -25,4 +25,5 @@ export const colors: Color[] = [
   Color.red,
   Color.green,
   Color.orange,
+  Color.gray,
 ];

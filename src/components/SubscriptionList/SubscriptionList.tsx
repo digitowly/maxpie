@@ -5,39 +5,52 @@ import MPModal from '../Modal/MPModal';
 import { Text, View } from '../Themed';
 import Subscription from '../Subscription/Subscription';
 import SubscriptionTotal from './SubscriptionTotal';
-import { SubscriptionType } from '../../types';
+import { SubscriptionRegister, SubscriptionType } from '../../types';
+import { useStore } from '../../store';
+import { useSubscriptionStore } from '../../store/subscription.store';
 
-interface SbuscriptionListProps {
-  subscriptions: SubscriptionType[];
-  removeItem: (id: string) => void;
-  setList: React.Dispatch<React.SetStateAction<SubscriptionType[]>>;
-}
-
-export default function SubscriptionList({
-  subscriptions,
-  removeItem,
-  setList,
-}: SbuscriptionListProps): JSX.Element {
+export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
   const [activeSubscription, setActiveSubscription] =
     React.useState<SubscriptionType | null>(null);
 
+  const library = useSubscriptionStore((state) => state.library);
+  const setLibrary = useSubscriptionStore((state) => state.setLibrary);
+
+  const activeCategory = useStore((state) => state.activeCategory);
+
+  const categoryId = activeCategory?.id;
+  const subscriptionsList: SubscriptionRegister = React.useMemo(() => {
+    if (categoryId) {
+      return (
+        library.find((sub) => sub.category.id === categoryId) ?? library[0]
+      );
+    } else {
+      return library[0];
+    }
+  }, [library, categoryId]);
+
   const totalAmount = React.useMemo(
     () =>
-      subscriptions.reduce((currentAmount: number, sub) => {
+      subscriptionsList?.subscriptions.reduce((currentAmount: number, sub) => {
         const subAmount = Number(sub.amount ?? 0);
         return currentAmount + subAmount;
       }, 0),
-    [subscriptions]
+    [subscriptionsList]
   );
 
   return (
     <View style={{ flex: 1 }}>
       <DraggableFlatList
         style={{ height: '85%' }}
-        data={subscriptions}
+        data={subscriptionsList?.subscriptions}
         keyExtractor={({ id }) => id}
-        onDragEnd={({ data }) => setList(data)}
+        onDragEnd={({ data }) =>
+          setLibrary({
+            categoryId: categoryId,
+            newSubscriptions: data,
+          })
+        }
         renderItem={({ item, drag }) => (
           <Subscription
             drag={drag}
@@ -58,7 +71,7 @@ export default function SubscriptionList({
         >
           <Pressable
             onPress={() => {
-              removeItem(activeSubscription.id);
+              //   removeItem(activeSubscription.id);
               setShowDetail(false);
             }}
           >

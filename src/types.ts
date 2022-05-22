@@ -2,7 +2,7 @@ export type SubscriptionType = {
   id: string;
   name: string;
   amount: number | string;
-  color: Color;
+  category: Category;
 };
 
 export enum Color {
@@ -10,4 +10,17 @@ export enum Color {
   blue = 'blue',
   green = 'green',
   orange = 'orange',
+  gray = '#303030',
 }
+
+export type SubscriptionRegister = {
+  category: Category;
+  subscriptions: SubscriptionType[];
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  icon: string;
+  color: Color;
+};

@@ -1,61 +1,71 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { colors } from '../../constants/Colors';
+import { Button, ScrollView, StyleSheet } from 'react-native';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
-import { Color, SubscriptionType } from '../../types';
-import ColorPicker from '../ColorPicker/ColorPicker';
+import { defaultCategory } from '../../helper/categories';
+import { useSubscriptionStore } from '../../store/subscription.store';
+import { Category } from '../../types';
+import CategoryPicker from '../CategoryPicker/CategoryPicker';
+import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
 import { Text, TextInput, View } from '../Themed';
 
-interface SubscriptionCreatorProps {
-  setNewSubscription: (newSubscription: SubscriptionType) => void;
-}
-
-export default function SubscriptionCreator({
-  setNewSubscription,
-}: SubscriptionCreatorProps): JSX.Element {
+export default function SubscriptionCreator(): JSX.Element {
   const [amount, setAmount] = React.useState('');
   const [name, setName] = React.useState('');
-  const [color, setColor] = React.useState<Color>(Color.orange);
+  const [category, setCategory] = React.useState<Category>(defaultCategory);
 
-  const handleSubscriptionSet = () =>
-    setNewSubscription({ id: '', amount, name, color });
+  const [showCategories, setShowCategories] = React.useState(false);
+
+  const addSubscription = useSubscriptionStore(
+    (state) => state.addSubscription
+  );
+
+  const createSubscription = () => {
+    if (amount && name)
+      addSubscription({
+        categoryId: category.id,
+        newSubscription: { id: uuidv4(), amount, name, category },
+      });
+  };
 
   return (
-    <ScrollView>
-      <View style={style.topSection}>
-        <View style={style.amountWrapper}>
-          <TextInput
-            autoFocus
-            style={style.amountInput}
-            onChangeText={(input) => {
-              setAmount(input);
-              handleSubscriptionSet();
-            }}
-            placeholder='0,00'
-            keyboardType='numeric'
-            returnKeyType='done'
-          />
-          <Text style={style.amountCurrency}>€</Text>
+    <>
+      <ScrollView>
+        <View style={style.topSection}>
+          <View style={style.amountWrapper}>
+            <TextInput
+              autoFocus
+              style={style.amountInput}
+              onChangeText={setAmount}
+              placeholder='0,00'
+              keyboardType='numeric'
+              returnKeyType='done'
+            />
+            <Text style={style.amountCurrency}>€</Text>
+          </View>
         </View>
-      </View>
-      <MPTextInput
-        label='Name'
-        onChangeText={(input) => {
-          setName(input);
-          handleSubscriptionSet();
-        }}
-        placeholder='Enter name'
-      />
-      <ColorPicker
-        colors={colors}
-        activeColor={color}
-        setActiveColor={(color) => {
-          setColor(color);
-          handleSubscriptionSet();
-        }}
-      />
-    </ScrollView>
+        <MPTextInput
+          label='Name'
+          onChangeText={setName}
+          placeholder='Enter name'
+        />
+
+        <CategorySelection
+          category={category}
+          onPress={() => setShowCategories(true)}
+        />
+
+        <CategoryPicker
+          updateCategory={setCategory}
+          visible={showCategories}
+          hide={() => setShowCategories(false)}
+        />
+
+        <Button title='create' onPress={createSubscription} />
+      </ScrollView>
+    </>
   );
 }
 

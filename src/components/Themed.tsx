@@ -30,7 +30,6 @@ export function useThemeColor(
 type ThemeProps = {
   lightColor?: string;
   darkColor?: string;
-  customRef?: React.RefObject<any>;
 };
 
 export type TextProps = ThemeProps & DefaultText['props'];
@@ -53,6 +52,8 @@ export const TextInput = React.forwardRef<DefaultTextInput, TextInputProps>(
     );
   }
 );
+
+TextInput.displayName = 'TextInput';
 
 export function View(props: ViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;

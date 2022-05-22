@@ -4,6 +4,7 @@ import SubscriptionGestureHandler from './SubsciptionGestureHandler';
 import { price } from '../../helper/price';
 import { SubscriptionType } from '../../types';
 import { subscriptionStyles } from './Subscription.style';
+import { View } from 'react-native';
 
 interface SubscriptionProps {
   subscription: SubscriptionType;
@@ -16,15 +17,18 @@ export default function Subscription({
   showDetail,
   drag,
 }: SubscriptionProps): JSX.Element {
-  const { name, amount, color } = subscription;
+  const { name, amount, category } = subscription;
 
   return (
     <SubscriptionGestureHandler
       onLongPress={drag}
       onPress={showDetail}
-      backgroundColor={color}
+      backgroundColor={category.color}
     >
-      <Text style={subscriptionStyles.text}>{name}</Text>
+      <View style={subscriptionStyles.titleWrapper}>
+        <Text style={subscriptionStyles.icon}>{category.icon}</Text>
+        <Text style={subscriptionStyles.text}>{name}</Text>
+      </View>
       <Text style={subscriptionStyles.text}>
         {price(Number(amount).toString())}
       </Text>
