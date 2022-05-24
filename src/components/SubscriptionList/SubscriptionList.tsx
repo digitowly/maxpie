@@ -17,15 +17,11 @@ export default function SubscriptionList(): JSX.Element {
   const subscriptionData = useSubscriptionStore((state) => state.data);
   const library = useSubscriptionStore((state) => state.library);
   const setLibrary = useSubscriptionStore((state) => state.setLibrary);
-  const removeSubscription = useSubscriptionStore(
-    (state) => state.removeSubscription
-  );
 
   const activeCategory = useStore((state) => state.activeCategory);
 
   const categoryId = activeCategory?.id;
   const subscriptionsList = React.useMemo(() => {
-    console.log('DATA', subscriptionData);
     let usedLib: SubscriptionRegister = library[0];
     if (categoryId) {
       usedLib =
