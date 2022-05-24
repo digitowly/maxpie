@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, StyleSheet } from 'react-native';
 import MPModal from '../components/Modal/MPModal';
-import SubscriptionCreator from '../components/SubscriptionCreator/SubscriptionCreator';
+import SubscriptionEditor from '../components/SubscriptionEditor/SubscriptionEditor';
 import SubscriptionList from '../components/SubscriptionList/SubscriptionList';
 import { View } from '../components/Themed';
 import CategorySelection from '../components/CategoryPicker/CategorySelection';
@@ -46,7 +46,7 @@ export default function StartScreen(): JSX.Element {
         visible={showCreatorModal}
         close={() => setShowCreatorModal(false)}
       >
-        <SubscriptionCreator hide={() => setShowCreatorModal(false)} />
+        <SubscriptionEditor hide={() => setShowCreatorModal(false)} />
       </MPModal>
       <CategoryPicker
         isStart

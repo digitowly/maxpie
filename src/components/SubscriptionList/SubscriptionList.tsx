@@ -1,13 +1,13 @@
 import React from 'react';
-import { Pressable } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import MPModal from '../Modal/MPModal';
-import { Text, View } from '../Themed';
+import { View } from '../Themed';
 import Subscription from '../Subscription/Subscription';
 import SubscriptionTotal from './SubscriptionTotal';
 import { SubscriptionRegister, SubscriptionType } from '../../types';
 import { useStore } from '../../store';
 import { useSubscriptionStore } from '../../store/subscription.store';
+import SubscriptionEditor from '../SubscriptionEditor/SubscriptionEditor';
 
 export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
@@ -25,6 +25,7 @@ export default function SubscriptionList(): JSX.Element {
 
   const categoryId = activeCategory?.id;
   const subscriptionsList = React.useMemo(() => {
+    console.log('DATA', subscriptionData);
     let usedLib: SubscriptionRegister = library[0];
     if (categoryId) {
       usedLib =
@@ -36,7 +37,7 @@ export default function SubscriptionList(): JSX.Element {
       if (item) items.push(item);
       return items;
     }, []);
-  }, [library, categoryId]);
+  }, [library, categoryId, subscriptionData]);
 
   const totalAmount = React.useMemo(
     () =>
@@ -78,14 +79,10 @@ export default function SubscriptionList(): JSX.Element {
           close={() => setShowDetail(false)}
           visible={showDetail}
         >
-          <Pressable
-            onPress={() => {
-              removeSubscription(activeSubscription.id);
-              setShowDetail(false);
-            }}
-          >
-            <Text>remove {activeSubscription?.name}</Text>
-          </Pressable>
+          <SubscriptionEditor
+            hide={() => setShowDetail(false)}
+            subscription={activeSubscription}
+          />
         </MPModal>
       )}
     </View>

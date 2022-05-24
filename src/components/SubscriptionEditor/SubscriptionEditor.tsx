@@ -13,14 +13,18 @@ import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatprProps {
   hide: () => void;
+  subscription?: SubscriptionType;
 }
 
-export default function SubscriptionCreator({
+export default function SubscriptionEditor({
   hide,
+  subscription,
 }: SubscriptionCreatprProps): JSX.Element {
-  const [amount, setAmount] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [category, setCategory] = React.useState<Category>(defaultCategory);
+  const [amount, setAmount] = React.useState(() => subscription?.amount ?? '');
+  const [name, setName] = React.useState(() => subscription?.name ?? '');
+  const [category, setCategory] = React.useState<Category>(
+    () => subscription?.category ?? defaultCategory
+  );
 
   const [showCategories, setShowCategories] = React.useState(false);
 
@@ -28,9 +32,17 @@ export default function SubscriptionCreator({
     (state) => state.addSubscriptionIdToLibrary
   );
   const addData = useSubscriptionStore((state) => state.addData);
+  const updateSubscription = useSubscriptionStore(
+    (state) => state.updateSubscription
+  );
+  const removeSubscription = useSubscriptionStore(
+    (state) => state.removeSubscription
+  );
 
   const createSubscription = () => {
     if (amount && name) {
+      //   subscription && removeSubscription(subscription.id);
+
       const newSubscription: SubscriptionType = {
         id: uuidv4(),
         amount,
@@ -58,14 +70,31 @@ export default function SubscriptionCreator({
     }
   };
 
+  const handleUpdateSubscription = () => {
+    if (subscription) {
+      const updatedSubscription: SubscriptionType = {
+        ...subscription,
+        name,
+        amount,
+        category,
+      };
+
+      updateSubscription(updatedSubscription);
+
+      // hide modal
+      hide();
+    }
+  };
+
   return (
     <>
       <ScrollView>
         <View style={style.topSection}>
           <View style={style.amountWrapper}>
             <TextInput
-              autoFocus
+              autoFocus={!subscription}
               style={style.amountInput}
+              value={amount.toString()}
               onChangeText={setAmount}
               placeholder='0,00'
               keyboardType='numeric'
@@ -76,6 +105,7 @@ export default function SubscriptionCreator({
         </View>
         <MPTextInput
           label='Name'
+          value={name}
           onChangeText={setName}
           placeholder='Enter name'
         />
@@ -90,8 +120,17 @@ export default function SubscriptionCreator({
           visible={showCategories}
           hide={() => setShowCategories(false)}
         />
-
-        <Button title='create' onPress={createSubscription} />
+        {subscription ? (
+          <>
+            <Button title='update' onPress={handleUpdateSubscription} />
+            <Button
+              title='remove'
+              onPress={() => removeSubscription(subscription.id)}
+            />
+          </>
+        ) : (
+          <Button title='create' onPress={createSubscription} />
+        )}
       </ScrollView>
     </>
   );

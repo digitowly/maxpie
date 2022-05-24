@@ -24,6 +24,8 @@ interface SubscriptionState {
   }) => void;
 
   removeSubscription: (subscriptionId: string) => void;
+
+  updateSubscription: (newSubscription: SubscriptionType) => void;
 }
 
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
@@ -61,6 +63,15 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
       return {
         ...state,
         library: libraryWithoutSubscription({ state, subscriptionId }),
+      };
+    }),
+
+  updateSubscription: (newSubscription) =>
+    set((state) => {
+      return {
+        ...state,
+        library: libraryWithUpdatedSubscription({ state, newSubscription }),
+        data: new Map(state.data.set(newSubscription.id, newSubscription)),
       };
     }),
 }));
@@ -122,4 +133,41 @@ function libraryWithoutSubscription({
       subscriptionIds: newSubIds,
     };
   });
+}
+
+function libraryWithUpdatedSubscription({
+  state,
+  newSubscription,
+}: {
+  state: SubscriptionState;
+  newSubscription: SubscriptionType;
+}) {
+  const oldSubscriptionState = state.data.get(newSubscription.id);
+  // check if categories changed
+  if (oldSubscriptionState?.category.id !== newSubscription.category.id) {
+    // if so remove subscription from all existing registers and add id toth new ones
+    return state.library.map((sub) => {
+      if (sub.category.id === 'all') {
+        return sub;
+      }
+      if (sub.category.id === newSubscription.category.id) {
+        // add subscription to new categories
+        return {
+          ...sub,
+          subscriptionIds: [newSubscription.id, ...sub.subscriptionIds],
+        };
+      } else {
+        // remove subscription from prev categories
+
+        return {
+          ...sub,
+          subscriptionIds: [...sub.subscriptionIds].filter(
+            (id) => id !== newSubscription?.id
+          ),
+        };
+      }
+    });
+  }
+  // if there is no category change, just return the old library state
+  return state.library;
 }
