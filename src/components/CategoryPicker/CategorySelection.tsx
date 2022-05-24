@@ -1,19 +1,26 @@
 import * as React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Category } from '../../types';
+import { useCategorySore } from '../../store/category.store';
 
 interface CategeroySelectionProps {
-  category: Category;
+  categoryId: string;
   onPress: () => void;
 }
 
 export default function CategorySelection({
-  category,
+  categoryId,
   onPress,
 }: CategeroySelectionProps): JSX.Element {
+  const categoryData = useCategorySore((state) => state.data);
+
+  const category = React.useMemo(
+    () => categoryData.get(categoryId),
+    [categoryId, categoryData]
+  );
+
   return (
     <Pressable
-      style={[style.wrapper, { backgroundColor: category.color }]}
+      style={[style.wrapper, { backgroundColor: category?.color }]}
       onPress={onPress}
     >
       <View
@@ -22,9 +29,9 @@ export default function CategorySelection({
           justifyContent: 'center',
         }}
       >
-        <Text style={style.icon}>{category.icon}</Text>
+        <Text style={style.icon}>{category?.icon}</Text>
       </View>
-      <Text style={style.name}>{category.name}</Text>
+      <Text style={style.name}>{category?.name}</Text>
     </Pressable>
   );
 }

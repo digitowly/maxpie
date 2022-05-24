@@ -2,7 +2,7 @@ export type SubscriptionType = {
   id: string;
   name: string;
   amount: number | string;
-  category: Category;
+  categoryId: string;
 };
 
 export enum Color {
@@ -14,7 +14,7 @@ export enum Color {
 }
 
 export type SubscriptionRegister = {
-  category: Category | { id: 'all'; name: 'all' };
+  categoryId: string | { id: 'all'; name: 'all' };
   subscriptionIds: string[];
 };
 

@@ -7,6 +7,7 @@ interface SubscriptionState {
   addData: (newSubscription: SubscriptionType) => void;
 
   library: SubscriptionRegister[];
+  addLibrary: (categoryId: string) => void;
   setLibrary: ({
     categoryId,
     newSubscriptionIds,
@@ -37,6 +38,11 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
     })),
 
   library: defaultSubscriptions,
+  addLibrary: (categoryId: string) =>
+    set((state) => ({
+      ...state,
+      library: [...state.library, { categoryId, subscriptionIds: [] }],
+    })),
   setLibrary: ({ categoryId, newSubscriptionIds }) =>
     set((state) => ({
       ...state,
@@ -86,7 +92,7 @@ function libraryWithNewSubscriptions({
   newSubscriptionIds: string[];
 }) {
   return state.library.map((sub) => {
-    if (sub.category.id === categoryId) {
+    if (sub.categoryId === categoryId) {
       return {
         ...sub,
         subscriptionIds: newSubscriptionIds,
@@ -106,7 +112,7 @@ function libraryWithNewSubscription({
   newSubscriptionId: string;
 }) {
   return state.library.map((sub) => {
-    if (sub.category.id === categoryId) {
+    if (sub.categoryId === categoryId) {
       return {
         ...sub,
         subscriptionIds: [newSubscriptionId, ...sub.subscriptionIds],
@@ -144,13 +150,13 @@ function libraryWithUpdatedSubscription({
 }) {
   const oldSubscriptionState = state.data.get(newSubscription.id);
   // check if categories changed
-  if (oldSubscriptionState?.category.id !== newSubscription.category.id) {
+  if (oldSubscriptionState?.categoryId !== newSubscription.categoryId) {
     // if so remove subscription from all existing registers and add id toth new ones
     return state.library.map((sub) => {
-      if (sub.category.id === 'all') {
+      if (sub.categoryId === 'all') {
         return sub;
       }
-      if (sub.category.id === newSubscription.category.id) {
+      if (sub.categoryId === newSubscription.categoryId) {
         // add subscription to new categories
         return {
           ...sub,

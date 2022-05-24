@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
-import { Category, SubscriptionType } from '../../types';
+import { SubscriptionType } from '../../types';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
@@ -22,8 +22,8 @@ export default function SubscriptionEditor({
 }: SubscriptionCreatprProps): JSX.Element {
   const [amount, setAmount] = React.useState(() => subscription?.amount ?? '');
   const [name, setName] = React.useState(() => subscription?.name ?? '');
-  const [category, setCategory] = React.useState<Category>(
-    () => subscription?.category ?? defaultCategory
+  const [categoryId, setCategoryId] = React.useState<string>(
+    () => subscription?.categoryId ?? defaultCategory.id
   );
 
   const [showCategories, setShowCategories] = React.useState(false);
@@ -47,12 +47,14 @@ export default function SubscriptionEditor({
         id: uuidv4(),
         amount,
         name,
-        category,
+        categoryId,
       };
+
+      console.log(newSubscription);
 
       // add item id to custom category
       addSubscriptionIdToLibrary({
-        categoryId: category.id,
+        categoryId: categoryId,
         newSubscriptionId: newSubscription.id,
       });
 
@@ -76,7 +78,7 @@ export default function SubscriptionEditor({
         ...subscription,
         name,
         amount,
-        category,
+        categoryId,
       };
 
       updateSubscription(updatedSubscription);
@@ -111,12 +113,12 @@ export default function SubscriptionEditor({
         />
 
         <CategorySelection
-          category={category}
+          categoryId={categoryId}
           onPress={() => setShowCategories(true)}
         />
 
         <CategoryPicker
-          updateCategory={(cat) => cat && setCategory(cat)}
+          updateCategory={(cat) => cat && setCategoryId(cat.id)}
           visible={showCategories}
           hide={() => setShowCategories(false)}
         />

@@ -30,7 +30,7 @@ export default function StartScreen(): JSX.Element {
         {activeCategory ? (
           <CategorySelection
             onPress={() => setShowCategoryPicker(true)}
-            category={activeCategory}
+            categoryId={activeCategory.id}
           />
         ) : (
           <Button title='all' onPress={() => setShowCategoryPicker(true)} />

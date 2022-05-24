@@ -25,7 +25,7 @@ export default function SubscriptionList(): JSX.Element {
     let usedLib: SubscriptionRegister = library[0];
     if (categoryId) {
       usedLib =
-        library.find((libEntry) => libEntry.category.id === categoryId) ??
+        library.find((libEntry) => libEntry.categoryId === categoryId) ??
         library[0];
     }
     return usedLib.subscriptionIds.reduce((items: SubscriptionType[], id) => {
