@@ -24,3 +24,9 @@ export type Category = {
   icon: string;
   color: Color;
 };
+
+export enum StorageId {
+  subscriptions = 'subscriptions',
+  categories = 'categories',
+  library = 'library',
+}

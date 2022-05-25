@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import MPModal from '../Modal/MPModal';
 import { View } from '../Themed';
@@ -8,6 +8,8 @@ import { SubscriptionRegister, SubscriptionType } from '../../types';
 import { useStore } from '../../store';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import SubscriptionEditor from '../SubscriptionEditor/SubscriptionEditor';
+import { storageSetSubscriptions } from '../../helper/storage/subscriptionStorage';
+import { storageSetLibrary } from '../../helper/storage/libraryStorage';
 
 export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
@@ -43,6 +45,12 @@ export default function SubscriptionList(): JSX.Element {
       }, 0),
     [subscriptionsList]
   );
+
+  // TODO put in separate hoook
+  React.useEffect(() => {
+    storageSetLibrary(library);
+    storageSetSubscriptions(subscriptionData);
+  }, [subscriptionData, library]);
 
   return (
     <View style={{ flex: 1 }}>

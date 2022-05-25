@@ -1,12 +1,13 @@
 import create from 'zustand';
-import { data, defaultSubscriptions } from '../data/defaultData';
 import { SubscriptionRegister, SubscriptionType } from '../types';
 
 interface SubscriptionState {
   data: Map<string, SubscriptionType>;
+  setData: (data: Map<string, SubscriptionType>) => void;
   addData: (newSubscription: SubscriptionType) => void;
 
   library: SubscriptionRegister[];
+  setInitLibrary: (register: SubscriptionRegister[]) => void;
   addLibrary: (categoryId: string) => void;
   setLibrary: ({
     categoryId,
@@ -30,14 +31,21 @@ interface SubscriptionState {
 }
 
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
-  data: data,
+  data: new Map([]),
+  setData: (data) => set((state) => ({ ...state, data })),
   addData: (newSubscription) =>
     set((state) => ({
       ...state,
       data: state.data.set(newSubscription.id, newSubscription),
     })),
 
-  library: defaultSubscriptions,
+  library: [],
+  setInitLibrary: (register) =>
+    set((state) => ({
+      ...state,
+      library: register,
+    })),
+
   addLibrary: (categoryId: string) =>
     set((state) => ({
       ...state,
