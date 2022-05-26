@@ -5,7 +5,6 @@ export async function storageSetSubscriptions(
   subscriptions: Map<string, SubscriptionType>
 ) {
   try {
-    console.log([...subscriptions]);
     await AsyncStorage.setItem(
       StorageId.subscriptions,
       JSON.stringify([...subscriptions])

@@ -3,6 +3,7 @@ import { Button, StyleSheet } from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { colors } from '../../constants/Colors';
+import { storageSetCategories } from '../../helper/storage/categoryStorage';
 import { useCategorySore } from '../../store/category.store';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { Category, Color } from '../../types';
@@ -16,6 +17,7 @@ export default function CategoryCreater(): JSX.Element {
 
   const addCategory = useCategorySore((state) => state.addCategory);
   const addLibrary = useSubscriptionStore((state) => state.addLibrary);
+  const categoriesData = useCategorySore((state) => state.data);
 
   const createCategory = () => {
     const newCategory: Category = {
@@ -26,6 +28,8 @@ export default function CategoryCreater(): JSX.Element {
     };
     addLibrary(newCategory.id);
     addCategory({ newCategoryId: newCategory.id, newCategory });
+
+    storageSetCategories(categoriesData);
   };
 
   return (

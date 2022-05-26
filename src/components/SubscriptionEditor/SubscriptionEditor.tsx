@@ -50,8 +50,6 @@ export default function SubscriptionEditor({
         categoryId,
       };
 
-      console.log(newSubscription);
-
       // add item id to custom category
       addSubscriptionIdToLibrary({
         categoryId: categoryId,

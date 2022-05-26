@@ -10,6 +10,12 @@ import { useSubscriptionStore } from '../../store/subscription.store';
 import SubscriptionEditor from '../SubscriptionEditor/SubscriptionEditor';
 import { storageSetSubscriptions } from '../../helper/storage/subscriptionStorage';
 import { storageSetLibrary } from '../../helper/storage/libraryStorage';
+import Animated, {
+  Easing,
+  Layout,
+  SlideInRight,
+  SlideOutLeft,
+} from 'react-native-reanimated';
 
 export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
@@ -65,15 +71,22 @@ export default function SubscriptionList(): JSX.Element {
             newSubscriptionIds: dataIds,
           });
         }}
-        renderItem={({ item, drag }) => (
-          <Subscription
-            drag={drag}
-            subscription={item}
-            showDetail={() => {
-              setActiveSubscription(item);
-              setShowDetail(true);
-            }}
-          />
+        renderItem={({ item, drag, index }) => (
+          <Animated.View
+            key={item.id}
+            entering={SlideInRight.springify()}
+            exiting={SlideOutLeft.springify()}
+            layout={Layout.easing(Easing.bounce).delay(index ?? 1 * 100)}
+          >
+            <Subscription
+              drag={drag}
+              subscription={item}
+              showDetail={() => {
+                setActiveSubscription(item);
+                setShowDetail(true);
+              }}
+            />
+          </Animated.View>
         )}
       />
       <SubscriptionTotal defaultAmount={totalAmount} />

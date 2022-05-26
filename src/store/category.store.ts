@@ -1,9 +1,9 @@
 import create from 'zustand';
-import { defaultCategories } from '../data/defaultData';
-import { Category } from '../types';
+import { Category, Color } from '../types';
 
 interface CategoryState {
   data: Map<string, Category>;
+  setCategoryData: (categoryData: Map<string, Category>) => void;
   addCategory: ({
     newCategoryId,
     newCategory,
@@ -14,7 +14,14 @@ interface CategoryState {
 }
 
 export const useCategorySore = create<CategoryState>((set) => ({
-  data: defaultCategories,
+  data: new Map([
+    [
+      'general',
+      { id: 'general', name: 'general', icon: '⚡️', color: Color.gray },
+    ],
+  ]),
+  setCategoryData: (categoryData) =>
+    set((state) => ({ ...state, data: categoryData })),
   addCategory: ({ newCategoryId, newCategory }) =>
     set((state) => ({
       ...state,

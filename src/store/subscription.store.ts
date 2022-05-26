@@ -39,7 +39,16 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
       data: state.data.set(newSubscription.id, newSubscription),
     })),
 
-  library: [],
+  library: [
+    {
+      categoryId: 'all',
+      subscriptionIds: [],
+    },
+    {
+      categoryId: 'general',
+      subscriptionIds: [],
+    },
+  ],
   setInitLibrary: (register) =>
     set((state) => ({
       ...state,

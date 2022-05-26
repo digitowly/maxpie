@@ -2,15 +2,20 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { storageGetCategories } from '../helper/storage/categoryStorage';
 import { storageGetLibrary } from '../helper/storage/libraryStorage';
 import { storageGetSubscriptions } from '../helper/storage/subscriptionStorage';
+import { useCategorySore } from '../store/category.store';
 import { useSubscriptionStore } from '../store/subscription.store';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   const setubscriptionData = useSubscriptionStore((state) => state.setData);
-  const setInitLibrary = useSubscriptionStore((state) => state.setInitLibrary);
+  const setInitLibraryData = useSubscriptionStore(
+    (state) => state.setInitLibrary
+  );
+  const setCategoryData = useCategorySore((state) => state.setCategoryData);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
@@ -22,8 +27,13 @@ export default function useCachedResources() {
         const subscriptions = await storageGetSubscriptions();
         if (subscriptions) setubscriptionData(subscriptions);
 
+        // get init lib data from storage
         const initLibrary = await storageGetLibrary();
-        if (initLibrary) setInitLibrary(initLibrary);
+        if (initLibrary) setInitLibraryData(initLibrary);
+
+        // get init category data from storage
+        const categories = await storageGetCategories();
+        if (categories) setCategoryData(categories);
 
         // Load fonts
         await Font.loadAsync({
