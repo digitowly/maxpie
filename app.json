@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "maxpie",
+    "owner": "digitowly",
     "slug": "maxpie",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,6 +30,7 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
