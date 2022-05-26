@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { storageGetCategories } from '../helper/storage/categoryStorage';
 import { storageGetLibrary } from '../helper/storage/libraryStorage';
 import { storageGetSubscriptions } from '../helper/storage/subscriptionStorage';
-import { useCategorySore } from '../store/category.store';
+import { useCategoryStore } from '../store/category.store';
 import { useSubscriptionStore } from '../store/subscription.store';
 
 export default function useCachedResources() {
@@ -15,7 +15,7 @@ export default function useCachedResources() {
   const setInitLibraryData = useSubscriptionStore(
     (state) => state.setInitLibrary
   );
-  const setCategoryData = useCategorySore((state) => state.setCategoryData);
+  const setCategoryData = useCategoryStore((state) => state.setCategoryData);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {

@@ -11,9 +11,11 @@ interface CategoryState {
     newCategoryId: string;
     newCategory: Category;
   }) => void;
+  overwriteCategory: (category: Category) => void;
+  removeCategory: (categoryId: string) => void;
 }
 
-export const useCategorySore = create<CategoryState>((set) => ({
+export const useCategoryStore = create<CategoryState>((set) => ({
   data: new Map([
     [
       'general',
@@ -27,4 +29,17 @@ export const useCategorySore = create<CategoryState>((set) => ({
       ...state,
       data: state.data.set(newCategoryId, newCategory),
     })),
+  overwriteCategory: (category) =>
+    set((state) => ({
+      ...state,
+      data: state.data.set(category.id, category),
+    })),
+  removeCategory: (categoryId) =>
+    set((state) => {
+      state.data.delete(categoryId);
+      return {
+        ...state,
+        data: state.data,
+      };
+    }),
 }));

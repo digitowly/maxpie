@@ -1,27 +1,27 @@
 import * as React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { useCategorySore } from '../../store/category.store';
+import { useCategoryStore } from '../../store/category.store';
 
 interface CategeroySelectionProps {
   categoryId: string;
   onPress: () => void;
+  onLongPress?: () => void;
 }
 
 export default function CategorySelection({
   categoryId,
   onPress,
+  onLongPress,
 }: CategeroySelectionProps): JSX.Element {
-  const categoryData = useCategorySore((state) => state.data);
+  const categoryData = useCategoryStore((state) => state.data);
 
-  const category = React.useMemo(
-    () => categoryData.get(categoryId),
-    [categoryId, categoryData]
-  );
+  const category = categoryData.get(categoryId);
 
   return (
     <Pressable
       style={[style.wrapper, { backgroundColor: category?.color }]}
       onPress={onPress}
+      onLongPress={onLongPress}
     >
       <View
         style={{

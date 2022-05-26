@@ -14,7 +14,7 @@ export default function MPTextInput(props: MPTextInputProps): JSX.Element {
   const inputRef = React.useRef<DefaultTextInput>(null);
   return (
     <Pressable style={style.wrapper} onPress={() => inputRef.current?.focus()}>
-      <Text style={style.label}>{props.label}</Text>
+      {props.label && <Text style={style.label}>{props.label}</Text>}
       <TextInput ref={inputRef} style={style.input} {...props} />
     </Pressable>
   );

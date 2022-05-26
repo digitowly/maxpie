@@ -16,6 +16,7 @@ interface SubscriptionState {
     categoryId?: string;
     newSubscriptionIds: string[];
   }) => void;
+  removeLibrary: (categoryId: string) => void;
 
   addSubscriptionIdToLibrary: ({
     newSubscriptionId,
@@ -67,6 +68,26 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
         state,
         categoryId,
         newSubscriptionIds,
+      }),
+    })),
+  removeLibrary: (categoryId) =>
+    set((state) => ({
+      ...state,
+      library: state.library.filter((lib) => {
+        if (lib.categoryId === categoryId) {
+          state.setLibrary({
+            categoryId: 'general',
+            newSubscriptionIds: lib.subscriptionIds,
+          });
+
+          lib.subscriptionIds.forEach((id) => {
+            const sub = state.data.get(id);
+            if (sub) state.data.set(id, { ...sub, categoryId: 'general' });
+          });
+
+          return false;
+        }
+        return true;
       }),
     })),
 

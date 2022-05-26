@@ -5,7 +5,7 @@ import { price } from '../../helper/price';
 import { SubscriptionType } from '../../types';
 import { subscriptionStyles } from './Subscription.style';
 import { View } from 'react-native';
-import { useCategorySore } from '../../store/category.store';
+import { useCategoryStore } from '../../store/category.store';
 
 interface SubscriptionProps {
   subscription: SubscriptionType;
@@ -20,7 +20,7 @@ export default function Subscription({
 }: SubscriptionProps): JSX.Element {
   const { name, amount, categoryId } = subscription;
 
-  const categoryData = useCategorySore((state) => state.data);
+  const categoryData = useCategoryStore((state) => state.data);
 
   const category = React.useMemo(
     () => categoryData.get(categoryId),

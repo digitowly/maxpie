@@ -6,6 +6,7 @@ import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { SubscriptionType } from '../../types';
+import MPButton from '../Buttons/MPButton';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
@@ -90,25 +91,29 @@ export default function SubscriptionEditor({
     <>
       <ScrollView>
         <View style={style.topSection}>
-          <View style={style.amountWrapper}>
-            <TextInput
-              autoFocus={!subscription}
-              style={style.amountInput}
-              value={amount.toString()}
-              onChangeText={setAmount}
-              placeholder='0,00'
-              keyboardType='numeric'
-              returnKeyType='done'
-            />
-            <Text style={style.amountCurrency}>€</Text>
+          <View style={style.section}>
+            <View style={style.amountWrapper}>
+              <TextInput
+                autoFocus={!subscription}
+                style={style.amountInput}
+                value={amount.toString()}
+                onChangeText={setAmount}
+                placeholder='0,00'
+                keyboardType='numeric'
+                returnKeyType='done'
+              />
+              <Text style={style.amountCurrency}>€</Text>
+            </View>
+            <Text>per Month</Text>
           </View>
         </View>
-        <MPTextInput
-          label='Name'
-          value={name}
-          onChangeText={setName}
-          placeholder='Enter name'
-        />
+        <View style={style.section}>
+          <MPTextInput
+            value={name}
+            onChangeText={setName}
+            placeholder='Enter name'
+          />
+        </View>
 
         <CategorySelection
           categoryId={categoryId}
@@ -122,7 +127,7 @@ export default function SubscriptionEditor({
         />
         {subscription ? (
           <>
-            <Button title='update' onPress={handleUpdateSubscription} />
+            <MPButton title='update' onPress={handleUpdateSubscription} />
             <Button
               title='remove'
               onPress={() => removeSubscription(subscription.id)}
@@ -141,6 +146,10 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  section: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
   amountWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -150,11 +159,15 @@ const style = StyleSheet.create({
     paddingLeft: p.sm,
   },
   amountInput: {
-    fontSize: 20,
+    fontSize: 40,
+    fontWeight: 'bold',
     borderWidth: 1,
     padding: p.sm,
     width: 150,
     borderRadius: 5,
     textAlign: 'center',
+  },
+  amountLabel: {
+    fontSize: 20,
   },
 });

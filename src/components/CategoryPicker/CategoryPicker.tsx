@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useCategorySore } from '../../store/category.store';
+import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
-import CategoryCreater from '../CategoryCreator/CategoryCreator';
+import CategoryEditor from '../CategoryEditor/CategoryEditor';
 import MPModal from '../Modal/MPModal';
 import CategorySelection from './CategorySelection';
 
@@ -20,8 +20,11 @@ export default function CategoryPicker({
   hide,
   updateCategory,
 }: CategoryPickerProps): JSX.Element {
-  const [showCategoryCreator, setShowCategoryCreator] = React.useState(false);
-  const categoryData = useCategorySore((state) => state.data);
+  const [showCategoryEditor, setShowCategoryEditor] = React.useState(false);
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<Category | null>(null);
+
+  const categoryData = useCategoryStore((state) => state.data);
   const categories = Array.from(categoryData.values());
   return (
     <MPModal
@@ -29,7 +32,7 @@ export default function CategoryPicker({
       visible={visible}
       close={hide}
       actionLabel='add'
-      action={() => setShowCategoryCreator(true)}
+      action={() => setShowCategoryEditor(true)}
     >
       {isStart && (
         <Button
@@ -48,16 +51,34 @@ export default function CategoryPicker({
               updateCategory(item);
               hide();
             }}
+            onLongPress={() => {
+              // prevent editing general (default) category
+              if (item.id !== 'general') {
+                setSelectedCategory(item);
+                setShowCategoryEditor(true);
+              }
+            }}
             categoryId={item.id}
           />
         )}
       />
       <MPModal
-        title='Create Category'
-        visible={showCategoryCreator}
-        close={() => setShowCategoryCreator(false)}
+        title={
+          selectedCategory ? `Edit ${selectedCategory.name}` : 'Create Category'
+        }
+        visible={showCategoryEditor}
+        close={() => {
+          setShowCategoryEditor(false);
+          setSelectedCategory(null);
+        }}
       >
-        <CategoryCreater />
+        <CategoryEditor
+          category={selectedCategory}
+          callback={() => {
+            setShowCategoryEditor(false);
+            setSelectedCategory(null);
+          }}
+        />
       </MPModal>
     </MPModal>
   );

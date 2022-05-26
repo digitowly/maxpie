@@ -4,7 +4,7 @@ import { p } from '../../constants/Spacing';
 import { Text, View } from '../Themed';
 
 export interface ModalHeaderProps {
-  title: string;
+  title?: string;
   close: () => void;
   action?: () => void;
   actionLabel?: string;

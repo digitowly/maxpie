@@ -91,11 +91,7 @@ export default function SubscriptionList(): JSX.Element {
       />
       <SubscriptionTotal defaultAmount={totalAmount} />
       {activeSubscription && (
-        <MPModal
-          title={activeSubscription.name}
-          close={() => setShowDetail(false)}
-          visible={showDetail}
-        >
+        <MPModal close={() => setShowDetail(false)} visible={showDetail}>
           <SubscriptionEditor
             hide={() => setShowDetail(false)}
             subscription={activeSubscription}
