@@ -38,7 +38,7 @@ export default function Subscription({
         <Text style={subscriptionStyles.text}>{name}</Text>
       </View>
       <Text style={subscriptionStyles.text}>
-        {price(Number(amount).toString())}
+        {price(Number(amount).toFixed(2).toString().replace('.', ','))}
       </Text>
     </SubscriptionGestureHandler>
   );

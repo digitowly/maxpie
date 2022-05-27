@@ -11,6 +11,8 @@ export enum Color {
   green = 'green',
   orange = 'orange',
   gray = '#303030',
+  black = 'black',
+  white = 'white',
 }
 
 export type SubscriptionRegister = {

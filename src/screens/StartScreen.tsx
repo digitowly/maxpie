@@ -29,6 +29,7 @@ export default function StartScreen(): JSX.Element {
         <View></View>
         {activeCategory ? (
           <CategorySelection
+            isSmall
             onPress={() => setShowCategoryPicker(true)}
             categoryId={activeCategory.id}
           />

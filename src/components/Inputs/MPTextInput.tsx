@@ -31,6 +31,6 @@ const style = StyleSheet.create({
     fontSize: 17,
   },
   input: {
-    fontSize: 17,
+    fontSize: 25,
   },
 });

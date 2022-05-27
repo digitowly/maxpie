@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Button, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import 'react-native-get-random-values';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { SubscriptionType } from '../../types';
 import MPButton from '../Buttons/MPButton';
+import DeleteButton from '../Buttons/presets/DeleteButton';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
@@ -21,11 +23,20 @@ export default function SubscriptionEditor({
   hide,
   subscription,
 }: SubscriptionCreatprProps): JSX.Element {
-  const [amount, setAmount] = React.useState(() => subscription?.amount ?? '');
+  const [amount, setAmount] = React.useState(
+    () => subscription?.amount.toString().replace('.', ',') ?? ''
+  );
   const [name, setName] = React.useState(() => subscription?.name ?? '');
   const [categoryId, setCategoryId] = React.useState<string>(
     () => subscription?.categoryId ?? defaultCategory.id
   );
+
+  const amountNumber = React.useMemo(
+    () => Number(amount.toString().replace(',', '.')),
+    [amount]
+  );
+
+  const hasAllInputs = !!amount && !!name;
 
   const [showCategories, setShowCategories] = React.useState(false);
 
@@ -40,13 +51,11 @@ export default function SubscriptionEditor({
     (state) => state.removeSubscription
   );
 
-  const createSubscription = () => {
+  const handleAddSubscription = () => {
     if (amount && name) {
-      //   subscription && removeSubscription(subscription.id);
-
       const newSubscription: SubscriptionType = {
         id: uuidv4(),
-        amount,
+        amount: amountNumber,
         name,
         categoryId,
       };
@@ -71,12 +80,18 @@ export default function SubscriptionEditor({
     }
   };
 
+  const handleRemoveSubscription = () => {
+    if (subscription?.id) removeSubscription(subscription.id);
+    // hide modal
+    hide();
+  };
+
   const handleUpdateSubscription = () => {
     if (subscription) {
       const updatedSubscription: SubscriptionType = {
         ...subscription,
         name,
-        amount,
+        amount: amountNumber,
         categoryId,
       };
 
@@ -98,7 +113,7 @@ export default function SubscriptionEditor({
                 style={style.amountInput}
                 value={amount.toString()}
                 onChangeText={setAmount}
-                placeholder='0,00'
+                placeholder='0'
                 keyboardType='numeric'
                 returnKeyType='done'
               />
@@ -115,10 +130,12 @@ export default function SubscriptionEditor({
           />
         </View>
 
-        <CategorySelection
-          categoryId={categoryId}
-          onPress={() => setShowCategories(true)}
-        />
+        <View style={{ marginBottom: 20 }}>
+          <CategorySelection
+            categoryId={categoryId}
+            onPress={() => setShowCategories(true)}
+          />
+        </View>
 
         <CategoryPicker
           updateCategory={(cat) => cat && setCategoryId(cat.id)}
@@ -128,13 +145,20 @@ export default function SubscriptionEditor({
         {subscription ? (
           <>
             <MPButton title='update' onPress={handleUpdateSubscription} />
-            <Button
-              title='remove'
-              onPress={() => removeSubscription(subscription.id)}
-            />
+            <DeleteButton onPress={handleRemoveSubscription} />
           </>
         ) : (
-          <Button title='create' onPress={createSubscription} />
+          <>
+            {hasAllInputs && (
+              <Animated.View
+                key={hasAllInputs.toString()}
+                entering={SlideInDown.springify()}
+                exiting={SlideOutDown.springify()}
+              >
+                <MPButton title='create' onPress={handleAddSubscription} />
+              </Animated.View>
+            )}
+          </>
         )}
       </ScrollView>
     </>
@@ -155,17 +179,15 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   amountCurrency: {
-    fontSize: 20,
+    fontSize: 35,
+    fontWeight: 'bold',
     paddingLeft: p.sm,
+    marginBottom: 5,
   },
   amountInput: {
-    fontSize: 40,
+    fontSize: 60,
     fontWeight: 'bold',
-    borderWidth: 1,
-    padding: p.sm,
-    width: 150,
-    borderRadius: 5,
-    textAlign: 'center',
+    width: 'auto',
   },
   amountLabel: {
     fontSize: 20,

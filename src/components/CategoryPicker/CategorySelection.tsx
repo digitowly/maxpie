@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { p } from '../../constants/Spacing';
 import { useCategoryStore } from '../../store/category.store';
 
 interface CategeroySelectionProps {
   categoryId: string;
   onPress: () => void;
   onLongPress?: () => void;
+  isSmall?: boolean;
 }
 
 export default function CategorySelection({
   categoryId,
   onPress,
   onLongPress,
+  isSmall,
 }: CategeroySelectionProps): JSX.Element {
   const categoryData = useCategoryStore((state) => state.data);
 
@@ -19,7 +22,10 @@ export default function CategorySelection({
 
   return (
     <Pressable
-      style={[style.wrapper, { backgroundColor: category?.color }]}
+      style={[
+        style.wrapper,
+        { backgroundColor: category?.color, padding: isSmall ? 5 : p.md },
+      ]}
       onPress={onPress}
       onLongPress={onLongPress}
     >

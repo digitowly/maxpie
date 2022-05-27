@@ -74,7 +74,7 @@ export default function SubscriptionTotal({
         exiting={FadeOutDown.springify()}
       >
         <Text style={style.amountText}>
-          {price(getAmount().toFixed(2).toString())}
+          {price(getAmount().toFixed(2).toString().replace('.', ','))}
         </Text>
       </Animated.View>
     </Pressable>
