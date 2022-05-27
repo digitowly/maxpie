@@ -21,11 +21,7 @@ export default function Subscription({
   const { name, amount, categoryId } = subscription;
 
   const categoryData = useCategoryStore((state) => state.data);
-
-  const category = React.useMemo(
-    () => categoryData.get(categoryId),
-    [categoryId, categoryData]
-  );
+  const category = categoryData.get(categoryId);
 
   return (
     <SubscriptionGestureHandler

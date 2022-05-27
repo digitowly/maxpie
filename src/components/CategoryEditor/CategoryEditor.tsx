@@ -9,6 +9,7 @@ import { useStore } from '../../store';
 import { useCategoryStore } from '../../store/category.store';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { Category, Color } from '../../types';
+import ActionSheet from '../ActionSheet/ActionSheet';
 import MPButton from '../Buttons/MPButton';
 import DeleteButton from '../Buttons/presets/DeleteButton';
 import ColorPicker from '../ColorPicker/ColorPicker';
@@ -29,6 +30,8 @@ export default function CategoryEditor({
   const [color, setColor] = React.useState<Color>(
     () => category?.color ?? Color.blue
   );
+
+  const [showActionSheeht, setShowActionSheet] = React.useState(false);
 
   const categoriesData = useCategoryStore((state) => state.data);
   const addCategory = useCategoryStore((state) => state.addCategory);
@@ -116,7 +119,15 @@ export default function CategoryEditor({
         ) : (
           <MPButton title='create' onPress={createCategory} />
         )}
-        {category && <DeleteButton onPress={handleDelete} />}
+        {category && <DeleteButton onPress={() => setShowActionSheet(true)} />}
+        {category && (
+          <ActionSheet
+            visible={showActionSheeht}
+            hide={() => setShowActionSheet(false)}
+          >
+            <DeleteButton onPress={handleDelete} />
+          </ActionSheet>
+        )}
       </View>
     </View>
   );

@@ -7,6 +7,7 @@ import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { Color, SubscriptionType } from '../../types';
+import ActionSheet from '../ActionSheet/ActionSheet';
 import MPButton from '../Buttons/MPButton';
 import DeleteButton from '../Buttons/presets/DeleteButton';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
@@ -39,6 +40,8 @@ export default function SubscriptionEditor({
   const hasAllInputs = !!amount && !!name;
 
   const [showCategories, setShowCategories] = React.useState(false);
+
+  const [showActionSheeht, setShowActionSheet] = React.useState(false);
 
   const addSubscriptionIdToLibrary = useSubscriptionStore(
     (state) => state.addSubscriptionIdToLibrary
@@ -153,7 +156,7 @@ export default function SubscriptionEditor({
           {subscription ? (
             <>
               <MPButton title='update' onPress={handleUpdateSubscription} />
-              <DeleteButton onPress={handleRemoveSubscription} />
+              <DeleteButton onPress={() => setShowActionSheet(true)} />
             </>
           ) : (
             <>
@@ -170,6 +173,12 @@ export default function SubscriptionEditor({
           )}
         </View>
       </ScrollView>
+      <ActionSheet
+        visible={showActionSheeht}
+        hide={() => setShowActionSheet(false)}
+      >
+        <DeleteButton onPress={handleRemoveSubscription} />
+      </ActionSheet>
     </>
   );
 }

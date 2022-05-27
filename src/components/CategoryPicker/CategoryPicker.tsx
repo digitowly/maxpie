@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
