@@ -8,6 +8,7 @@ interface CategeroySelectionProps {
   onPress: () => void;
   onLongPress?: () => void;
   isSmall?: boolean;
+  isInList?: boolean;
 }
 
 export default function CategorySelection({
@@ -15,6 +16,7 @@ export default function CategorySelection({
   onPress,
   onLongPress,
   isSmall,
+  isInList,
 }: CategeroySelectionProps): JSX.Element {
   const categoryData = useCategoryStore((state) => state.data);
 
@@ -24,7 +26,11 @@ export default function CategorySelection({
     <Pressable
       style={[
         style.wrapper,
-        { backgroundColor: category?.color, padding: isSmall ? 5 : p.md },
+        {
+          backgroundColor: category?.color,
+          padding: isSmall ? 5 : 15,
+          width: isInList ? 'auto' : 250,
+        },
       ]}
       onPress={onPress}
       onLongPress={onLongPress}
@@ -52,10 +58,12 @@ const style = StyleSheet.create({
     paddingRight: 30,
     borderRadius: 500,
     marginVertical: 5,
+    width: 250,
   },
   name: {
     color: 'white',
     fontSize: 15,
+    fontWeight: 'bold',
   },
   icon: { fontSize: 18, marginRight: 10 },
 });

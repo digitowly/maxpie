@@ -8,6 +8,7 @@ import Animated, {
 import { p } from '../../constants/Spacing';
 import { price } from '../../helper/price';
 import useColorScheme from '../../hooks/useColorScheme';
+import { Color } from '../../types';
 import { View, Text } from '../Themed';
 
 enum Rate {
@@ -52,13 +53,7 @@ export default function SubscriptionTotal({
   }
 
   return (
-    <Pressable
-      onPress={() => setNextRate()}
-      style={[
-        style.wrapper,
-        { borderColor: colorScheme === 'light' ? 'lightgrey' : 'grey' },
-      ]}
-    >
+    <Pressable onPress={() => setNextRate()} style={[style.wrapper]}>
       <View>
         <Text style={style.totalText}>Expenses </Text>
         <View style={{ flexDirection: 'row' }}>
@@ -88,6 +83,7 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: p.md,
+    borderColor: Color.lightgray,
     borderTopWidth: 1,
   },
   totalText: {
@@ -97,7 +93,7 @@ const style = StyleSheet.create({
   },
   periodText: {
     fontSize: 18,
-    color: 'grey',
+    color: Color.lightgray,
     fontWeight: 'bold',
   },
   amountText: {

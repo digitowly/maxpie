@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { p } from '../../constants/Spacing';
+import Chevron from '../Icons/Chevron';
 import { Text, View } from '../Themed';
 
 export interface ModalHeaderProps {
   title?: string;
   close: () => void;
   action?: () => void;
-  actionLabel?: string;
+  actionLabel?: JSX.Element;
 }
 
 export default function ModalHeader({
@@ -18,15 +19,17 @@ export default function ModalHeader({
 }: ModalHeaderProps): JSX.Element {
   return (
     <View style={style.wrapper}>
-      <Pressable style={style.side} onPress={close}>
-        <Text>close</Text>
+      <Pressable style={[style.side, { padding: 3 }]} onPress={close}>
+        <Chevron />
       </Pressable>
       <Text>{title}</Text>
       <View style={style.side}>
         {actionLabel && action && (
-          <Pressable onPress={action}>
-            <Text>{actionLabel}</Text>
-          </Pressable>
+          <View style={{ alignItems: 'flex-end' }}>
+            <Pressable style={{ padding: 3 }} onPress={action}>
+              {actionLabel}
+            </Pressable>
+          </View>
         )}
       </View>
     </View>

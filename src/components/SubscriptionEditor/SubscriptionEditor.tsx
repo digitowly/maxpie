@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
 import { useSubscriptionStore } from '../../store/subscription.store';
-import { SubscriptionType } from '../../types';
+import { Color, SubscriptionType } from '../../types';
 import MPButton from '../Buttons/MPButton';
 import DeleteButton from '../Buttons/presets/DeleteButton';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
@@ -119,7 +119,15 @@ export default function SubscriptionEditor({
               />
               <Text style={style.amountCurrency}>€</Text>
             </View>
-            <Text>per Month</Text>
+            <Text
+              style={{
+                color: Color.lightgray,
+                fontWeight: 'bold',
+                marginTop: 10,
+              }}
+            >
+              per Month
+            </Text>
           </View>
         </View>
         <View style={style.section}>
@@ -130,36 +138,37 @@ export default function SubscriptionEditor({
           />
         </View>
 
-        <View style={{ marginBottom: 20 }}>
-          <CategorySelection
-            categoryId={categoryId}
-            onPress={() => setShowCategories(true)}
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ marginBottom: 20 }}>
+            <CategorySelection
+              categoryId={categoryId}
+              onPress={() => setShowCategories(true)}
+            />
+          </View>
+          <CategoryPicker
+            updateCategory={(cat) => cat && setCategoryId(cat.id)}
+            visible={showCategories}
+            hide={() => setShowCategories(false)}
           />
+          {subscription ? (
+            <>
+              <MPButton title='update' onPress={handleUpdateSubscription} />
+              <DeleteButton onPress={handleRemoveSubscription} />
+            </>
+          ) : (
+            <>
+              {hasAllInputs && (
+                <Animated.View
+                  key={hasAllInputs.toString()}
+                  entering={SlideInDown.springify()}
+                  exiting={SlideOutDown.springify()}
+                >
+                  <MPButton title='create' onPress={handleAddSubscription} />
+                </Animated.View>
+              )}
+            </>
+          )}
         </View>
-
-        <CategoryPicker
-          updateCategory={(cat) => cat && setCategoryId(cat.id)}
-          visible={showCategories}
-          hide={() => setShowCategories(false)}
-        />
-        {subscription ? (
-          <>
-            <MPButton title='update' onPress={handleUpdateSubscription} />
-            <DeleteButton onPress={handleRemoveSubscription} />
-          </>
-        ) : (
-          <>
-            {hasAllInputs && (
-              <Animated.View
-                key={hasAllInputs.toString()}
-                entering={SlideInDown.springify()}
-                exiting={SlideOutDown.springify()}
-              >
-                <MPButton title='create' onPress={handleAddSubscription} />
-              </Animated.View>
-            )}
-          </>
-        )}
       </ScrollView>
     </>
   );
@@ -185,7 +194,7 @@ const style = StyleSheet.create({
     marginBottom: 5,
   },
   amountInput: {
-    fontSize: 60,
+    fontSize: 45,
     fontWeight: 'bold',
     width: 'auto',
   },

@@ -21,8 +21,8 @@ export interface MPButtonProps extends TouchableHighlightProps {
 export default function MPButton(props: MPButtonProps): JSX.Element {
   const scheme = useColorScheme();
 
-  const backgroundColor = scheme === 'dark' ? 'white' : 'black';
-  const color = scheme === 'dark' ? 'black' : 'white';
+  const backgroundColor = scheme === 'dark' ? Color.white : Color.black;
+  const color = scheme === 'dark' ? Color.black : Color.white;
 
   return (
     <TouchableHighlight
@@ -31,7 +31,7 @@ export default function MPButton(props: MPButtonProps): JSX.Element {
         style.wrapper,
         {
           backgroundColor: props.backgroundColor ?? backgroundColor,
-          padding: props.secondary ? p.sm : p.md,
+          padding: props.secondary ? p.sm : 15,
         },
       ]}
       onPress={props.onPress}
@@ -45,13 +45,13 @@ export default function MPButton(props: MPButtonProps): JSX.Element {
 
 const style = StyleSheet.create({
   wrapper: {
-    padding: p.md,
     borderRadius: 15,
     marginBottom: 20,
+    width: 200,
   },
   text: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 16,
   },
 });

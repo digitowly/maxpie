@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, StyleSheet } from 'react-native';
+import { Button, Pressable, StyleSheet } from 'react-native';
 import MPModal from '../components/Modal/MPModal';
 import SubscriptionEditor from '../components/SubscriptionEditor/SubscriptionEditor';
 import SubscriptionList from '../components/SubscriptionList/SubscriptionList';
@@ -7,6 +7,7 @@ import { View } from '../components/Themed';
 import CategorySelection from '../components/CategoryPicker/CategorySelection';
 import CategoryPicker from '../components/CategoryPicker/CategoryPicker';
 import { useStore } from '../store';
+import Plus from '../components/Icons/Plus';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
@@ -22,7 +23,7 @@ export default function StartScreen(): JSX.Element {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingHorizontal: 20,
+          paddingHorizontal: 25,
           paddingVertical: 10,
         }}
       >
@@ -36,7 +37,9 @@ export default function StartScreen(): JSX.Element {
         ) : (
           <Button title='all' onPress={() => setShowCategoryPicker(true)} />
         )}
-        <Button title='+' onPress={() => setShowCreatorModal(true)}></Button>
+        <Pressable onPress={() => setShowCreatorModal(true)}>
+          <Plus />
+        </Pressable>
       </View>
       <View style={styles.container}>
         <SubscriptionList />

@@ -97,9 +97,9 @@ export default function CategoryEditor({
         />
 
         <MPTextInput
-          placeholderTextColor={'gray'}
-          darkColor='white'
-          lightColor='white'
+          placeholderTextColor={Color.gray}
+          darkColor={Color.white}
+          lightColor={Color.white}
           placeholder='Enter name'
           value={name}
           onChangeText={(text) => setName(text)}
@@ -123,7 +123,7 @@ export default function CategoryEditor({
 const style = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: 'green',
+    backgroundColor: Color.green,
     padding: 20,
     borderRadius: 20,
     marginBottom: 20,
@@ -133,6 +133,6 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'white',
+    color: Color.white,
   },
 });

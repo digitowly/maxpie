@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
 import CategoryEditor from '../CategoryEditor/CategoryEditor';
+import Plus from '../Icons/Plus';
 import MPModal from '../Modal/MPModal';
 import CategorySelection from './CategorySelection';
 
@@ -31,7 +32,7 @@ export default function CategoryPicker({
       title='Categories'
       visible={visible}
       close={hide}
-      actionLabel='add'
+      actionLabel={<Plus />}
       action={() => setShowCategoryEditor(true)}
     >
       {isStart && (
@@ -47,6 +48,7 @@ export default function CategoryPicker({
         data={categories}
         renderItem={({ item }) => (
           <CategorySelection
+            isInList
             onPress={() => {
               updateCategory(item);
               hide();
