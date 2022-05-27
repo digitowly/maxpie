@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import 'react-native-get-random-values';
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
 import { defaultCategory } from '../../helper/categories';
@@ -160,8 +160,8 @@ export default function SubscriptionEditor({
               {hasAllInputs && (
                 <Animated.View
                   key={hasAllInputs.toString()}
-                  entering={SlideInDown.springify()}
-                  exiting={SlideOutDown.springify()}
+                  entering={FadeInDown}
+                  exiting={FadeOutDown}
                 >
                   <MPButton title='create' onPress={handleAddSubscription} />
                 </Animated.View>

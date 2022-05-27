@@ -110,12 +110,14 @@ export default function CategoryEditor({
           setActiveColor={(selectedColor) => setColor(selectedColor)}
         />
       </View>
-      {category ? (
-        <MPButton title='update' onPress={handleUpdate} />
-      ) : (
-        <MPButton title='create' onPress={createCategory} />
-      )}
-      {category && <DeleteButton onPress={handleDelete} />}
+      <View style={{ alignItems: 'center' }}>
+        {category ? (
+          <MPButton title='update' onPress={handleUpdate} />
+        ) : (
+          <MPButton title='create' onPress={createCategory} />
+        )}
+        {category && <DeleteButton onPress={handleDelete} />}
+      </View>
     </View>
   );
 }

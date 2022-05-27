@@ -8,6 +8,7 @@ import CategorySelection from '../components/CategoryPicker/CategorySelection';
 import CategoryPicker from '../components/CategoryPicker/CategoryPicker';
 import { useStore } from '../store';
 import Plus from '../components/Icons/Plus';
+import All from '../components/CategoryPicker/All';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
@@ -23,21 +24,25 @@ export default function StartScreen(): JSX.Element {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingHorizontal: 25,
+          paddingHorizontal: 18,
           paddingVertical: 10,
         }}
       >
         <View></View>
         {activeCategory ? (
           <CategorySelection
+            isInList
             isSmall
             onPress={() => setShowCategoryPicker(true)}
             categoryId={activeCategory.id}
           />
         ) : (
-          <Button title='all' onPress={() => setShowCategoryPicker(true)} />
+          <All isSmall onPress={() => setShowCategoryPicker(true)} />
         )}
-        <Pressable onPress={() => setShowCreatorModal(true)}>
+        <Pressable
+          style={{ padding: 4 }}
+          onPress={() => setShowCreatorModal(true)}
+        >
           <Plus />
         </Pressable>
       </View>

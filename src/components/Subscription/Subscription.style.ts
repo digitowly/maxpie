@@ -8,9 +8,9 @@ export const subscriptionStyles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 18,
     paddingVertical: 22,
-    borderRadius: 6,
+    borderRadius: 8,
     marginVertical: 5,
-    marginHorizontal: 20,
+    marginHorizontal: 18,
   },
   titleWrapper: {
     flexDirection: 'row',

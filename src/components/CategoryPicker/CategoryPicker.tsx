@@ -6,6 +6,7 @@ import { Category } from '../../types';
 import CategoryEditor from '../CategoryEditor/CategoryEditor';
 import Plus from '../Icons/Plus';
 import MPModal from '../Modal/MPModal';
+import All from './All';
 import CategorySelection from './CategorySelection';
 
 interface CategoryPickerProps {
@@ -36,8 +37,7 @@ export default function CategoryPicker({
       action={() => setShowCategoryEditor(true)}
     >
       {isStart && (
-        <Button
-          title='all'
+        <All
           onPress={() => {
             updateCategory(null);
             hide();

@@ -12,9 +12,9 @@ import { storageSetSubscriptions } from '../../helper/storage/subscriptionStorag
 import { storageSetLibrary } from '../../helper/storage/libraryStorage';
 import Animated, {
   Easing,
+  FadeInDown,
+  FadeOutDown,
   Layout,
-  SlideInRight,
-  SlideOutLeft,
 } from 'react-native-reanimated';
 
 export default function SubscriptionList(): JSX.Element {
@@ -74,8 +74,8 @@ export default function SubscriptionList(): JSX.Element {
         renderItem={({ item, drag, index }) => (
           <Animated.View
             key={item.id}
-            entering={SlideInRight.springify()}
-            exiting={SlideOutLeft.springify()}
+            entering={FadeInDown.springify()}
+            exiting={FadeOutDown.springify()}
             layout={Layout.easing(Easing.bounce).delay(index ?? 1 * 100)}
           >
             <Subscription
