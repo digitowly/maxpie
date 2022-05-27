@@ -6,13 +6,14 @@ export type SubscriptionType = {
 };
 
 export enum Color {
-  red = 'red',
-  blue = 'blue',
-  green = 'green',
-  orange = 'orange',
-  gray = '#303030',
-  black = 'black',
-  white = 'white',
+  red = '#DF5000',
+  blue = '#00C5F0',
+  green = '#00CC83',
+  orange = 'EBA901',
+  gray = '#004381',
+  lightgray = '#7DC4FF',
+  black = '#001629',
+  white = '#F2FAFF',
 }
 
 export type SubscriptionRegister = {
