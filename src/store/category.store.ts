@@ -19,7 +19,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
   data: new Map([
     [
       'general',
-      { id: 'general', name: 'general', icon: '⚡️', color: Color.gray },
+      { id: 'general', name: 'General', icon: '⚡️', color: Color.gray },
     ],
   ]),
   setCategoryData: (categoryData) =>

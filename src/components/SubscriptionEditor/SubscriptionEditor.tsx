@@ -4,7 +4,7 @@ import 'react-native-get-random-values';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
-import { defaultCategory } from '../../helper/categories';
+import { useStore } from '../../store';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { Color, SubscriptionType } from '../../types';
 import ActionSheet from '../ActionSheet/ActionSheet';
@@ -24,13 +24,16 @@ export default function SubscriptionEditor({
   hide,
   subscription,
 }: SubscriptionCreatprProps): JSX.Element {
+  const activeCategory = useStore((state) => state.activeCategory);
   const [amount, setAmount] = React.useState(
     () => subscription?.amount.toString().replace('.', ',') ?? ''
   );
   const [name, setName] = React.useState(() => subscription?.name ?? '');
-  const [categoryId, setCategoryId] = React.useState<string>(
-    () => subscription?.categoryId ?? defaultCategory.id
-  );
+  const [categoryId, setCategoryId] = React.useState<string>(() => {
+    if (subscription) return subscription.categoryId;
+    if (activeCategory) return activeCategory.id;
+    return 'general';
+  });
 
   const amountNumber = React.useMemo(
     () => Number(amount.toString().replace(',', '.')),
@@ -84,9 +87,11 @@ export default function SubscriptionEditor({
   };
 
   const handleRemoveSubscription = () => {
+    setShowActionSheet(false);
     if (subscription?.id) removeSubscription(subscription.id);
     // hide modal
     hide();
+    // setTimeout(hide, 100);
   };
 
   const handleUpdateSubscription = () => {
@@ -137,7 +142,7 @@ export default function SubscriptionEditor({
           <MPTextInput
             value={name}
             onChangeText={setName}
-            placeholder='Enter name'
+            placeholder='Enter a name'
           />
         </View>
 
@@ -155,7 +160,20 @@ export default function SubscriptionEditor({
           />
           {subscription ? (
             <>
-              <MPButton title='update' onPress={handleUpdateSubscription} />
+              <>
+                {hasAllInputs && (
+                  <Animated.View
+                    key={hasAllInputs.toString()}
+                    entering={FadeInDown}
+                    exiting={FadeOutDown}
+                  >
+                    <MPButton
+                      title='update'
+                      onPress={handleUpdateSubscription}
+                    />
+                  </Animated.View>
+                )}
+              </>
               <DeleteButton onPress={() => setShowActionSheet(true)} />
             </>
           ) : (

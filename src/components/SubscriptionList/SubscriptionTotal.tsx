@@ -7,7 +7,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { p } from '../../constants/Spacing';
 import { price } from '../../helper/price';
-import useColorScheme from '../../hooks/useColorScheme';
 import { Color } from '../../types';
 import { View, Text } from '../Themed';
 
@@ -24,8 +23,6 @@ interface SubscriptionTotalProps {
 export default function SubscriptionTotal({
   defaultAmount,
 }: SubscriptionTotalProps): JSX.Element {
-  const colorScheme = useColorScheme();
-
   const [rate, setRate] = React.useState<Rate>(Rate.perMonth);
 
   function setNextRate() {

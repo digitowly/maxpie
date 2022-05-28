@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import 'react-native-get-random-values';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
 import { colors } from '../../constants/Colors';
 import { storageSetCategories } from '../../helper/storage/categoryStorage';
@@ -30,6 +31,8 @@ export default function CategoryEditor({
   const [color, setColor] = React.useState<Color>(
     () => category?.color ?? Color.blue
   );
+
+  const hasAllInputs = !!symbol && !!name;
 
   const [showActionSheeht, setShowActionSheet] = React.useState(false);
 
@@ -103,7 +106,7 @@ export default function CategoryEditor({
           placeholderTextColor={Color.gray}
           darkColor={Color.white}
           lightColor={Color.white}
-          placeholder='Enter name'
+          placeholder='Enter a name'
           value={name}
           onChangeText={(text) => setName(text)}
         />
@@ -115,9 +118,29 @@ export default function CategoryEditor({
       </View>
       <View style={{ alignItems: 'center' }}>
         {category ? (
-          <MPButton title='update' onPress={handleUpdate} />
+          <>
+            {hasAllInputs && (
+              <Animated.View
+                key={hasAllInputs.toString()}
+                entering={FadeInDown}
+                exiting={FadeOutDown}
+              >
+                <MPButton title='update' onPress={handleUpdate} />
+              </Animated.View>
+            )}
+          </>
         ) : (
-          <MPButton title='create' onPress={createCategory} />
+          <>
+            {hasAllInputs && (
+              <Animated.View
+                key={hasAllInputs.toString()}
+                entering={FadeInDown}
+                exiting={FadeOutDown}
+              >
+                <MPButton title='create' onPress={createCategory} />
+              </Animated.View>
+            )}
+          </>
         )}
         {category && <DeleteButton onPress={() => setShowActionSheet(true)} />}
         {category && (

@@ -16,6 +16,8 @@ import Animated, {
   FadeOutDown,
   Layout,
 } from 'react-native-reanimated';
+import EmptyList from '../EmptyList/EmptyList';
+import EmptyCategory from '../EmptyList/EmptyCategory';
 
 export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
@@ -71,6 +73,19 @@ export default function SubscriptionList(): JSX.Element {
             newSubscriptionIds: dataIds,
           });
         }}
+        ListHeaderComponent={
+          <>
+            {subscriptionsList.length === 0 && (
+              <>
+                {activeCategory ? (
+                  <EmptyCategory name={activeCategory.name} />
+                ) : (
+                  <EmptyList />
+                )}
+              </>
+            )}
+          </>
+        }
         renderItem={({ item, drag, index }) => (
           <Animated.View
             key={item.id}
@@ -89,6 +104,7 @@ export default function SubscriptionList(): JSX.Element {
           </Animated.View>
         )}
       />
+
       <SubscriptionTotal defaultAmount={totalAmount} />
       {activeSubscription && (
         <MPModal close={() => setShowDetail(false)} visible={showDetail}>

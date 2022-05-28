@@ -103,9 +103,12 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
 
   removeSubscription: (subscriptionId) =>
     set((state) => {
-      state.data.delete(subscriptionId);
+      const newData = state.data;
+      newData.delete(subscriptionId);
+
       return {
         ...state,
+        data: new Map(newData),
         library: libraryWithoutSubscription({ state, subscriptionId }),
       };
     }),
