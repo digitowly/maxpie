@@ -31,6 +31,7 @@ const style = StyleSheet.create({
     fontSize: 17,
   },
   input: {
-    fontSize: 25,
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });

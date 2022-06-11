@@ -112,55 +112,79 @@ export default function SubscriptionEditor({
   };
 
   return (
-    <Layout>
-      <ScrollView>
-        <View style={style.topSection}>
-          <View style={style.section}>
-            <View style={style.amountWrapper}>
-              <TextInput
-                autoFocus={!subscription}
-                style={style.amountInput}
-                value={amount.toString()}
-                onChangeText={setAmount}
-                placeholder='0'
-                keyboardType='numeric'
-                returnKeyType='done'
-              />
-              <Text style={style.amountCurrency}>€</Text>
+    <>
+      <ScrollView style={{ minHeight: '100%' }}>
+        <Layout>
+          <View style={style.topSection}>
+            <View style={style.section}>
+              <View style={style.amountWrapper}>
+                <TextInput
+                  autoFocus={!subscription}
+                  style={style.amountInput}
+                  value={amount.toString()}
+                  onChangeText={setAmount}
+                  placeholder='0'
+                  keyboardType='numeric'
+                  returnKeyType='done'
+                />
+                <Text style={style.amountCurrency}>€</Text>
+              </View>
+              <Text
+                style={{
+                  color: Color.lightgray,
+                  fontWeight: 'bold',
+                  marginTop: 10,
+                }}
+              >
+                per Month
+              </Text>
             </View>
-            <Text
-              style={{
-                color: Color.lightgray,
-                fontWeight: 'bold',
-                marginTop: 10,
-              }}
-            >
-              per Month
-            </Text>
           </View>
-        </View>
-        <View style={style.section}>
-          <MPTextInput
-            value={name}
-            onChangeText={setName}
-            placeholder='Enter a name'
-          />
-        </View>
-
-        <View style={{ alignItems: 'center' }}>
-          <View style={{ marginBottom: 20 }}>
-            <CategorySelection
-              categoryId={categoryId}
-              onPress={() => setShowCategories(true)}
+          <View style={style.section}>
+            <MPTextInput
+              value={name}
+              onChangeText={setName}
+              placeholder='Enter a name'
             />
           </View>
-          <CategoryPicker
-            updateCategory={(cat) => cat && setCategoryId(cat.id)}
-            visible={showCategories}
-            hide={() => setShowCategories(false)}
-          />
-          {subscription ? (
-            <>
+
+          <View
+            style={{
+              alignItems: 'center',
+              height: '70%',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View style={{ marginBottom: 20 }}>
+              <CategorySelection
+                categoryId={categoryId}
+                onPress={() => setShowCategories(true)}
+              />
+            </View>
+            <CategoryPicker
+              updateCategory={(cat) => cat && setCategoryId(cat.id)}
+              visible={showCategories}
+              hide={() => setShowCategories(false)}
+            />
+            {subscription ? (
+              <View>
+                <>
+                  {hasAllInputs && (
+                    <Animated.View
+                      key={hasAllInputs.toString()}
+                      entering={FadeInDown}
+                      exiting={FadeOutDown}
+                    >
+                      <MPButton
+                        title='update'
+                        onPress={handleUpdateSubscription}
+                      />
+                    </Animated.View>
+                  )}
+                </>
+                <DeleteButton onPress={() => setShowActionSheet(true)} />
+              </View>
+            ) : (
               <>
                 {hasAllInputs && (
                   <Animated.View
@@ -168,29 +192,13 @@ export default function SubscriptionEditor({
                     entering={FadeInDown}
                     exiting={FadeOutDown}
                   >
-                    <MPButton
-                      title='update'
-                      onPress={handleUpdateSubscription}
-                    />
+                    <MPButton title='create' onPress={handleAddSubscription} />
                   </Animated.View>
                 )}
               </>
-              <DeleteButton onPress={() => setShowActionSheet(true)} />
-            </>
-          ) : (
-            <>
-              {hasAllInputs && (
-                <Animated.View
-                  key={hasAllInputs.toString()}
-                  entering={FadeInDown}
-                  exiting={FadeOutDown}
-                >
-                  <MPButton title='create' onPress={handleAddSubscription} />
-                </Animated.View>
-              )}
-            </>
-          )}
-        </View>
+            )}
+          </View>
+        </Layout>
       </ScrollView>
       <ActionSheet
         visible={showActionSheeht}
@@ -198,7 +206,7 @@ export default function SubscriptionEditor({
       >
         <DeleteButton onPress={handleRemoveSubscription} />
       </ActionSheet>
-    </Layout>
+    </>
   );
 }
 

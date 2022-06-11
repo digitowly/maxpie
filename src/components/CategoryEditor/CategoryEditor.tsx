@@ -17,7 +17,7 @@ import ColorPicker from '../ColorPicker/ColorPicker';
 import EmojiPicker, { EmojiPickerRef } from '../EmojiPicker/EmojiPicker';
 import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
-import { TextInput, View } from '../Themed';
+import { View } from '../Themed';
 
 interface CategoryEditorProps {
   category: Category | null;
@@ -98,13 +98,6 @@ export default function CategoryEditor({
     <>
       <Layout>
         <View style={[style.wrapper, { backgroundColor: color }]}>
-          {/* <TextInput
-          placeholder='emoji'
-          style={style.symbol}
-          value={symbol}
-          onChangeText={(text) => setSymbol(text)}
-          maxLength={7}
-        /> */}
           <Pressable onPress={() => emojiPickerRef.current?.show()}>
             <Text style={style.symbol}>{symbol}</Text>
           </Pressable>
