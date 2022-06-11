@@ -4,6 +4,7 @@ import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
 import CategoryEditor from '../CategoryEditor/CategoryEditor';
 import Plus from '../Icons/Plus';
+import Layout from '../Layout';
 import MPModal from '../Modal/MPModal';
 import All from './All';
 import CategorySelection from './CategorySelection';
@@ -35,34 +36,36 @@ export default function CategoryPicker({
       actionLabel={<Plus />}
       action={() => setShowCategoryEditor(true)}
     >
-      {isStart && (
-        <All
-          onPress={() => {
-            updateCategory(null);
-            hide();
-          }}
-        />
-      )}
-      <FlatList
-        data={categories}
-        renderItem={({ item }) => (
-          <CategorySelection
-            isInList
+      <Layout>
+        {isStart && (
+          <All
             onPress={() => {
-              updateCategory(item);
+              updateCategory(null);
               hide();
             }}
-            onLongPress={() => {
-              // prevent editing general (default) category
-              if (item.id !== 'general') {
-                setSelectedCategory(item);
-                setShowCategoryEditor(true);
-              }
-            }}
-            categoryId={item.id}
           />
         )}
-      />
+        <FlatList
+          data={categories}
+          renderItem={({ item }) => (
+            <CategorySelection
+              isInList
+              onPress={() => {
+                updateCategory(item);
+                hide();
+              }}
+              onLongPress={() => {
+                // prevent editing general (default) category
+                if (item.id !== 'general') {
+                  setSelectedCategory(item);
+                  setShowCategoryEditor(true);
+                }
+              }}
+              categoryId={item.id}
+            />
+          )}
+        />
+      </Layout>
       <MPModal
         title={
           selectedCategory ? `Edit ${selectedCategory.name}` : 'Create Category'

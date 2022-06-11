@@ -13,6 +13,7 @@ import DeleteButton from '../Buttons/presets/DeleteButton';
 import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
+import Layout from '../Layout';
 import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatprProps {
@@ -111,7 +112,7 @@ export default function SubscriptionEditor({
   };
 
   return (
-    <>
+    <Layout>
       <ScrollView>
         <View style={style.topSection}>
           <View style={style.section}>
@@ -197,7 +198,7 @@ export default function SubscriptionEditor({
       >
         <DeleteButton onPress={handleRemoveSubscription} />
       </ActionSheet>
-    </>
+    </Layout>
   );
 }
 

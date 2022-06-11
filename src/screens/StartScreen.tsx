@@ -52,7 +52,7 @@ export default function StartScreen(): JSX.Element {
         <View></View>
       </View>
       <MPModal
-        title='New Subscription'
+        title='New Expense'
         visible={showCreatorModal}
         close={() => setShowCreatorModal(false)}
       >

@@ -36,7 +36,6 @@ export default function MPModal({
 
 const style = StyleSheet.create({
   wrapper: {
-    padding: 20,
     flex: 1,
   },
 });

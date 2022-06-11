@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import 'react-native-get-random-values';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +14,9 @@ import ActionSheet from '../ActionSheet/ActionSheet';
 import MPButton from '../Buttons/MPButton';
 import DeleteButton from '../Buttons/presets/DeleteButton';
 import ColorPicker from '../ColorPicker/ColorPicker';
+import EmojiPicker, { EmojiPickerRef } from '../EmojiPicker/EmojiPicker';
 import MPTextInput from '../Inputs/MPTextInput';
+import Layout from '../Layout';
 import { TextInput, View } from '../Themed';
 
 interface CategoryEditorProps {
@@ -26,6 +28,7 @@ export default function CategoryEditor({
   category,
   callback,
 }: CategoryEditorProps): JSX.Element {
+  const emojiPickerRef = React.useRef<EmojiPickerRef>(null);
   const [symbol, setSymbol] = React.useState(() => category?.icon ?? '🐦');
   const [name, setName] = React.useState(() => category?.name ?? '');
   const [color, setColor] = React.useState<Color>(
@@ -92,67 +95,75 @@ export default function CategoryEditor({
   };
 
   return (
-    <View>
-      <View style={[style.wrapper, { backgroundColor: color }]}>
-        <TextInput
+    <>
+      <Layout>
+        <View style={[style.wrapper, { backgroundColor: color }]}>
+          {/* <TextInput
           placeholder='emoji'
           style={style.symbol}
           value={symbol}
           onChangeText={(text) => setSymbol(text)}
           maxLength={7}
-        />
+        /> */}
+          <Pressable onPress={() => emojiPickerRef.current?.show()}>
+            <Text style={style.symbol}>{symbol}</Text>
+          </Pressable>
 
-        <MPTextInput
-          placeholderTextColor={Color.gray}
-          darkColor={Color.white}
-          lightColor={Color.white}
-          placeholder='Enter a name'
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <ColorPicker
-          colors={colors}
-          activeColor={color}
-          setActiveColor={(selectedColor) => setColor(selectedColor)}
-        />
-      </View>
-      <View style={{ alignItems: 'center' }}>
-        {category ? (
-          <>
-            {hasAllInputs && (
-              <Animated.View
-                key={hasAllInputs.toString()}
-                entering={FadeInDown}
-                exiting={FadeOutDown}
-              >
-                <MPButton title='update' onPress={handleUpdate} />
-              </Animated.View>
-            )}
-          </>
-        ) : (
-          <>
-            {hasAllInputs && (
-              <Animated.View
-                key={hasAllInputs.toString()}
-                entering={FadeInDown}
-                exiting={FadeOutDown}
-              >
-                <MPButton title='create' onPress={createCategory} />
-              </Animated.View>
-            )}
-          </>
-        )}
-        {category && <DeleteButton onPress={() => setShowActionSheet(true)} />}
-        {category && (
-          <ActionSheet
-            visible={showActionSheeht}
-            hide={() => setShowActionSheet(false)}
-          >
-            <DeleteButton onPress={handleDelete} />
-          </ActionSheet>
-        )}
-      </View>
-    </View>
+          <MPTextInput
+            placeholderTextColor={Color.gray}
+            darkColor={Color.white}
+            lightColor={Color.white}
+            placeholder='Enter a name'
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <ColorPicker
+            colors={colors}
+            activeColor={color}
+            setActiveColor={(selectedColor) => setColor(selectedColor)}
+          />
+        </View>
+        <View style={{ alignItems: 'center' }}>
+          {category ? (
+            <>
+              {hasAllInputs && (
+                <Animated.View
+                  key={hasAllInputs.toString()}
+                  entering={FadeInDown}
+                  exiting={FadeOutDown}
+                >
+                  <MPButton title='update' onPress={handleUpdate} />
+                </Animated.View>
+              )}
+            </>
+          ) : (
+            <>
+              {hasAllInputs && (
+                <Animated.View
+                  key={hasAllInputs.toString()}
+                  entering={FadeInDown}
+                  exiting={FadeOutDown}
+                >
+                  <MPButton title='create' onPress={createCategory} />
+                </Animated.View>
+              )}
+            </>
+          )}
+          {category && (
+            <DeleteButton onPress={() => setShowActionSheet(true)} />
+          )}
+          {category && (
+            <ActionSheet
+              visible={showActionSheeht}
+              hide={() => setShowActionSheet(false)}
+            >
+              <DeleteButton onPress={handleDelete} />
+            </ActionSheet>
+          )}
+        </View>
+      </Layout>
+      <EmojiPicker ref={emojiPickerRef} setEmoji={(em) => setSymbol(em)} />
+    </>
   );
 }
 

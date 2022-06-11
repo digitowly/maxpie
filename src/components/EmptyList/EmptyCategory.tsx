@@ -28,6 +28,6 @@ const style = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: Color.gray,
+    color: Color.lightgray,
   },
 });
