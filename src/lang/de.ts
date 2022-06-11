@@ -13,4 +13,9 @@ export const de = {
   categories: 'Kategorien',
   createCategory: 'Kategorie erstellen',
   editCategory: 'Kategorie bearbeiten',
+  introTitle: 'Hey, schön dich zu sehen!  👋',
+  introBody1:
+    'Du kannst deine wiederkehrenden Augaben über das "+" Symbol oben rechts hinzufügen.',
+  introBody2:
+    'Du kannst sie einer Kategorie zuweisen und anschließend filtern.',
 };

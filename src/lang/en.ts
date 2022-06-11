@@ -13,4 +13,9 @@ export const en = {
   categories: 'Categories',
   createCategory: 'Create Category',
   editCategory: 'Edit Category',
+  introTitle: 'Hey, great to see you!  👋',
+  introBody1:
+    'You can start adding your reoccuring expenses by pressing the "+" icon in the top right.',
+  introBody2:
+    'You can assing them a category and filter them or show them all at once.',
 };

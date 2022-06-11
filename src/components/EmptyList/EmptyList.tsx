@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
+import i18n from '../../lang/i18n';
 import { Text } from '../Themed';
 
 export default function EmptyList(): JSX.Element {
   return (
     <View style={style.wrapper}>
-      <Text style={style.title}>{`Hey, great to see you!  👋`}</Text>
-      <Text style={style.text}>
-        {`Start adding your reoccuring expenses by pressing the '+' icon in the top right`}
-      </Text>
-      <Text style={style.text}>
-        {`You can assing them a category and filter them or show them all at once`}
-      </Text>
+      <Text style={style.title}>{i18n.t('introTitle')}</Text>
+      <Text style={style.text}>{i18n.t('introBody1')}</Text>
+      {/* <Text style={style.text}>{i18n.t('introBody2')}</Text> */}
     </View>
   );
 }
