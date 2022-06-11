@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import MPModal from '../components/Modal/MPModal';
 import SubscriptionEditor from '../components/SubscriptionEditor/SubscriptionEditor';
 import SubscriptionList from '../components/SubscriptionList/SubscriptionList';
@@ -9,6 +9,7 @@ import CategoryPicker from '../components/CategoryPicker/CategoryPicker';
 import { useStore } from '../store';
 import Plus from '../components/Icons/Plus';
 import All from '../components/CategoryPicker/All';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
@@ -18,7 +19,7 @@ export default function StartScreen(): JSX.Element {
   const setActiveCategoy = useStore((state) => state.setActiveCategoy);
 
   return (
-    <>
+    <SafeAreaView style={{ minHeight: '100%' }}>
       <View
         style={{
           flexDirection: 'row',
@@ -63,7 +64,7 @@ export default function StartScreen(): JSX.Element {
         hide={() => setShowCategoryPicker(false)}
         updateCategory={setActiveCategoy}
       />
-    </>
+    </SafeAreaView>
   );
 }
 
