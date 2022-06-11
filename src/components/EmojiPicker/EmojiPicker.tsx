@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useColorScheme } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
-import ActionSheet from '../ActionSheet/ActionSheet';
 import { Color } from './constants';
 import EmojiPickerTopBar, { TopBar } from './EmojiPickerTopBar';
 import EmojiRenderItem from './EmojiRenderItem';
