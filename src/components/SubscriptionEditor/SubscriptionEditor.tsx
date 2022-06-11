@@ -4,6 +4,7 @@ import 'react-native-get-random-values';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
 import { p } from '../../constants/Spacing';
+import i18n from '../../lang/i18n';
 import { useStore } from '../../store';
 import { useSubscriptionStore } from '../../store/subscription.store';
 import { Color, SubscriptionType } from '../../types';
@@ -136,7 +137,7 @@ export default function SubscriptionEditor({
                   marginTop: 10,
                 }}
               >
-                per Month
+                {i18n.t('per')} {i18n.t('month')}
               </Text>
             </View>
           </View>
@@ -144,7 +145,7 @@ export default function SubscriptionEditor({
             <MPTextInput
               value={name}
               onChangeText={setName}
-              placeholder='Enter a name'
+              placeholder={i18n.t('enterName')}
             />
           </View>
 
@@ -176,7 +177,7 @@ export default function SubscriptionEditor({
                       exiting={FadeOutDown}
                     >
                       <MPButton
-                        title='update'
+                        title={i18n.t('update')}
                         onPress={handleUpdateSubscription}
                       />
                     </Animated.View>
@@ -192,7 +193,10 @@ export default function SubscriptionEditor({
                     entering={FadeInDown}
                     exiting={FadeOutDown}
                   >
-                    <MPButton title='create' onPress={handleAddSubscription} />
+                    <MPButton
+                      title={i18n.t('create')}
+                      onPress={handleAddSubscription}
+                    />
                   </Animated.View>
                 )}
               </>

@@ -7,14 +7,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { p } from '../../constants/Spacing';
 import { price } from '../../helper/price';
-import { Color } from '../../types';
+import i18n from '../../lang/i18n';
+import { Color, Interval, Month, Rate, Week, Year } from '../../types';
 import { View, Text } from '../Themed';
-
-enum Rate {
-  perWeek = 'Week',
-  perMonth = 'Month',
-  perYear = 'Year',
-}
 
 interface SubscriptionTotalProps {
   defaultAmount: number;
@@ -23,27 +18,27 @@ interface SubscriptionTotalProps {
 export default function SubscriptionTotal({
   defaultAmount,
 }: SubscriptionTotalProps): JSX.Element {
-  const [rate, setRate] = React.useState<Rate>(Rate.perMonth);
+  const [rate, setRate] = React.useState<Rate>(Month);
 
   function setNextRate() {
-    if (rate === Rate.perWeek) {
-      return setRate(Rate.perMonth);
+    if (rate.interval === Interval.perWeek) {
+      return setRate(Month);
     }
-    if (rate === Rate.perMonth) {
-      return setRate(Rate.perYear);
+    if (rate.interval === Interval.perMonth) {
+      return setRate(Year);
     }
-    if (rate === Rate.perYear) {
-      return setRate(Rate.perWeek);
+    if (rate.interval === Interval.perYear) {
+      return setRate(Week);
     }
   }
   function getAmount() {
-    if (rate === Rate.perWeek) {
+    if (rate.interval === Interval.perWeek) {
       return defaultAmount / 4;
     }
-    if (rate === Rate.perMonth) {
+    if (rate.interval === Interval.perMonth) {
       return defaultAmount;
     }
-    if (rate === Rate.perYear) {
+    if (rate.interval === Interval.perYear) {
       return defaultAmount * 12;
     }
     return 0;
@@ -52,16 +47,20 @@ export default function SubscriptionTotal({
   return (
     <Pressable onPress={() => setNextRate()} style={[style.wrapper]}>
       <View>
-        <Text style={style.totalText}>Expenses </Text>
+        <Text style={style.totalText}>{i18n.t('expenses')} </Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={style.periodText}>per </Text>
-          <Animated.View key={rate} entering={FadeInUp} exiting={FadeOutDown}>
-            <Text style={style.periodText}>{rate}</Text>
+          <Text style={style.periodText}>{i18n.t('per')} </Text>
+          <Animated.View
+            key={rate.interval}
+            entering={FadeInUp}
+            exiting={FadeOutDown}
+          >
+            <Text style={style.periodText}>{rate.text}</Text>
           </Animated.View>
         </View>
       </View>
       <Animated.View
-        key={rate}
+        key={rate.interval}
         entering={FlipInXUp.springify()}
         exiting={FadeOutDown.springify()}
       >

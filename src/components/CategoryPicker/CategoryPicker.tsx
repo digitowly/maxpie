@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import i18n from '../../lang/i18n';
 import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
 import CategoryEditor from '../CategoryEditor/CategoryEditor';
@@ -30,7 +31,7 @@ export default function CategoryPicker({
   const categories = Array.from(categoryData.values());
   return (
     <MPModal
-      title='Categories'
+      title={i18n.t('categories')}
       visible={visible}
       close={hide}
       actionLabel={<Plus />}
@@ -68,7 +69,7 @@ export default function CategoryPicker({
       </Layout>
       <MPModal
         title={
-          selectedCategory ? `Edit ${selectedCategory.name}` : 'Create Category'
+          selectedCategory ? i18n.t('editCategory') : i18n.t('createCategory')
         }
         visible={showCategoryEditor}
         close={() => {

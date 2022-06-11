@@ -1,0 +1,16 @@
+export const de = {
+  all: 'alle',
+  expenses: 'Ausgaben',
+  newExpense: 'Neue Ausgabe',
+  per: 'pro',
+  week: 'Woche',
+  month: 'Monat',
+  year: 'Jahr',
+  enterName: 'gib einen Namen ein',
+  remove: 'entfernen',
+  update: 'aktualisieren',
+  create: 'erstellen',
+  categories: 'Kategorien',
+  createCategory: 'Kategorie erstellen',
+  editCategory: 'Kategorie bearbeiten',
+};

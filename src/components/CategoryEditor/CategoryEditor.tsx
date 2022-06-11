@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { colors } from '../../constants/Colors';
 import { storageSetCategories } from '../../helper/storage/categoryStorage';
 import { storageSetLibrary } from '../../helper/storage/libraryStorage';
+import i18n from '../../lang/i18n';
 import { useStore } from '../../store';
 import { useCategoryStore } from '../../store/category.store';
 import { useSubscriptionStore } from '../../store/subscription.store';
@@ -125,7 +126,7 @@ export default function CategoryEditor({
                   entering={FadeInDown}
                   exiting={FadeOutDown}
                 >
-                  <MPButton title='update' onPress={handleUpdate} />
+                  <MPButton title={i18n.t('update')} onPress={handleUpdate} />
                 </Animated.View>
               )}
             </>
@@ -137,7 +138,7 @@ export default function CategoryEditor({
                   entering={FadeInDown}
                   exiting={FadeOutDown}
                 >
-                  <MPButton title='create' onPress={createCategory} />
+                  <MPButton title={i18n.t('create')} onPress={createCategory} />
                 </Animated.View>
               )}
             </>

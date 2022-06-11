@@ -10,6 +10,7 @@ import { useStore } from '../store';
 import Plus from '../components/Icons/Plus';
 import All from '../components/CategoryPicker/All';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import i18n from '../lang/i18n';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
@@ -52,7 +53,7 @@ export default function StartScreen(): JSX.Element {
         <View></View>
       </View>
       <MPModal
-        title='New Expense'
+        title={i18n.t('newExpense')}
         visible={showCreatorModal}
         close={() => setShowCreatorModal(false)}
       >

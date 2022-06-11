@@ -1,3 +1,5 @@
+import i18n from './lang/i18n';
+
 export type SubscriptionType = {
   id: string;
   name: string;
@@ -33,3 +35,27 @@ export enum StorageId {
   categories = 'categories',
   library = 'library',
 }
+
+export enum Interval {
+  perWeek = 'Week',
+  perMonth = 'Month',
+  perYear = 'Year',
+}
+
+export type Rate = {
+  interval: Interval;
+  text: string;
+};
+
+export const Week: Rate = {
+  interval: Interval.perWeek,
+  text: i18n.t('week'),
+};
+export const Month: Rate = {
+  interval: Interval.perMonth,
+  text: i18n.t('month'),
+};
+export const Year: Rate = {
+  interval: Interval.perYear,
+  text: i18n.t('year'),
+};
