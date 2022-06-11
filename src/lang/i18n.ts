@@ -10,6 +10,8 @@ i18n.translations = {
   ['de-US']: de,
 };
 
+i18n.fallbacks = 'en';
+
 // Set the locale once at the beginning of your app.
 i18n.locale = Localization.locale;
 

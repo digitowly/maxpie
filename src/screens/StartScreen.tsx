@@ -30,7 +30,7 @@ export default function StartScreen(): JSX.Element {
           paddingVertical: 10,
         }}
       >
-        <View></View>
+        <View style={{ width: 50 }}></View>
         {activeCategory ? (
           <CategorySelection
             isInList
@@ -41,12 +41,20 @@ export default function StartScreen(): JSX.Element {
         ) : (
           <All isSmall onPress={() => setShowCategoryPicker(true)} />
         )}
-        <Pressable
-          style={{ padding: 4 }}
-          onPress={() => setShowCreatorModal(true)}
+        <View
+          style={{
+            width: 50,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}
         >
-          <Plus />
-        </Pressable>
+          <Pressable
+            style={{ padding: 4 }}
+            onPress={() => setShowCreatorModal(true)}
+          >
+            <Plus />
+          </Pressable>
+        </View>
       </View>
       <View style={styles.container}>
         <SubscriptionList />

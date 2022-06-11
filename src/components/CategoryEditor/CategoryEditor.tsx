@@ -16,6 +16,7 @@ import MPButton from '../Buttons/MPButton';
 import DeleteButton from '../Buttons/presets/DeleteButton';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import EmojiPicker, { EmojiPickerRef } from '../EmojiPicker/EmojiPicker';
+import Close from '../Icons/Close';
 import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
 import { View } from '../Themed';
@@ -156,7 +157,13 @@ export default function CategoryEditor({
           )}
         </View>
       </Layout>
-      <EmojiPicker ref={emojiPickerRef} setEmoji={(em) => setSymbol(em)} />
+      <EmojiPicker
+        ref={emojiPickerRef}
+        setEmoji={(em) => setSymbol(em)}
+        topBar={{
+          closeElement: <Close />,
+        }}
+      />
     </>
   );
 }

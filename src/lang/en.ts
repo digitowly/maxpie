@@ -12,5 +12,5 @@ export const en = {
   create: 'create',
   categories: 'Categories',
   createCategory: 'Create Category',
-  editCategory: 'Kategorie bearbeiten',
+  editCategory: 'Edit Category',
 };
