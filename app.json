@@ -20,10 +20,11 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "2",
-      "supportsTablet": true,
+      "buildNumber": "4",
+      "supportsTablet": false,
       "infoPlist": {
-        "RCTAsyncStorageExcludeFromBackup": false
+        "RCTAsyncStorageExcludeFromBackup": "NO",
+        "CFBundleAllowMixedLocalizations": true
       },
       "bundleIdentifier": "com.digitowly.maxpie"
     },
