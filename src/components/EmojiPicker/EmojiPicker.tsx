@@ -44,7 +44,14 @@ const EmojiPicker = React.forwardRef<EmojiPickerRef, EmojiPickerProps>(
         <EmojiPickerTopBar topbar={topBar} hide={hide} />
 
         <FlatList
-          style={{ width: '100%', minHeight: '100%', backgroundColor }}
+          contentContainerStyle={{
+            paddingBottom: 200,
+          }}
+          style={{
+            width: '100%',
+            minHeight: '100%',
+            backgroundColor,
+          }}
           data={emojis}
           bounces={false}
           alwaysBounceHorizontal={false}

@@ -108,7 +108,7 @@ export default function CategoryEditor({
             placeholderTextColor={Color.gray}
             darkColor={Color.white}
             lightColor={Color.white}
-            placeholder='Enter a name'
+            placeholder={i18n.t('enterName')}
             value={name}
             onChangeText={(text) => setName(text)}
           />

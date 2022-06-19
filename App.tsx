@@ -13,6 +13,7 @@ export default function App() {
   if (!isLoadingComplete) {
     return null;
   }
+
   const backgroundColor = scheme === 'dark' ? Color.black : Color.white;
 
   return (
