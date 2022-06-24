@@ -23,7 +23,7 @@
       "buildNumber": "4",
       "supportsTablet": false,
       "infoPlist": {
-        "RCTAsyncStorageExcludeFromBackup": "NO",
+        "RCTAsyncStorageExcludeFromBackup": false,
         "CFBundleAllowMixedLocalizations": true
       },
       "bundleIdentifier": "com.digitowly.maxpie"
