@@ -34,6 +34,7 @@ export enum StorageId {
   subscriptions = 'subscriptions',
   categories = 'categories',
   library = 'library',
+  currency = 'currency',
 }
 
 export enum Interval {

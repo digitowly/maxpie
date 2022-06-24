@@ -9,17 +9,20 @@ import Animated, {
 import { View } from '../Themed';
 import { Color } from '../../types';
 import MPButton from '../Buttons/MPButton';
+import i18n from '../../lang/i18n';
 
 interface ActionSheetProps {
   visible: boolean;
   children: React.ReactNode;
   hide: () => void;
+  closeLabel?: string;
 }
 
 export default function ActionSheet({
   visible,
   children,
   hide,
+  closeLabel = i18n.t('cancel'),
 }: ActionSheetProps): JSX.Element {
   const bottom = useSharedValue(-200);
   const bdOpacity = useSharedValue(0);
@@ -88,13 +91,18 @@ export default function ActionSheet({
         >
           <View
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
               padding: 18,
             }}
           >
             {children}
-            <MPButton title='cancel' onPress={hideModal} />
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <MPButton title={closeLabel} onPress={hideModal} />
+            </View>
           </View>
         </Animated.View>
       </Modal>

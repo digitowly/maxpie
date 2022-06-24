@@ -27,10 +27,14 @@ export default function SubscriptionEditor({
   subscription,
 }: SubscriptionCreatprProps): JSX.Element {
   const activeCategory = useStore((state) => state.activeCategory);
+
+  const currency = useStore((state) => state.currency);
+
   const [amount, setAmount] = React.useState(
     () => subscription?.amount.toString().replace('.', ',') ?? ''
   );
   const [name, setName] = React.useState(() => subscription?.name ?? '');
+
   const [categoryId, setCategoryId] = React.useState<string>(() => {
     if (subscription) return subscription.categoryId;
     if (activeCategory) return activeCategory.id;
@@ -128,7 +132,7 @@ export default function SubscriptionEditor({
                   keyboardType='numeric'
                   returnKeyType='done'
                 />
-                <Text style={style.amountCurrency}>€</Text>
+                <Text style={style.amountCurrency}>{currency.sign}</Text>
               </View>
               <Text
                 style={{
@@ -208,7 +212,14 @@ export default function SubscriptionEditor({
         visible={showActionSheeht}
         hide={() => setShowActionSheet(false)}
       >
-        <DeleteButton onPress={handleRemoveSubscription} />
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <DeleteButton onPress={handleRemoveSubscription} />
+        </View>
       </ActionSheet>
     </>
   );

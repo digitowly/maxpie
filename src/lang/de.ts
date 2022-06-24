@@ -1,5 +1,7 @@
 export const de = {
   all: 'alle',
+  settings: 'Einstellungen',
+  currency: 'Währung',
   expenses: 'Ausgaben',
   newExpense: 'Neue Ausgabe',
   per: 'pro',
@@ -10,6 +12,8 @@ export const de = {
   remove: 'entfernen',
   update: 'aktualisieren',
   create: 'erstellen',
+  cancel: 'abbrechen',
+  confirm: 'bestätigen',
   categories: 'Kategorien',
   createCategory: 'Kategorie erstellen',
   editCategory: 'Kategorie bearbeiten',

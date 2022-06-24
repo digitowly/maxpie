@@ -3,8 +3,10 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { storageGetCategories } from '../helper/storage/categoryStorage';
+import { storageGetCurrency } from '../helper/storage/currencyStorage';
 import { storageGetLibrary } from '../helper/storage/libraryStorage';
 import { storageGetSubscriptions } from '../helper/storage/subscriptionStorage';
+import { useStore } from '../store';
 import { useCategoryStore } from '../store/category.store';
 import { useSubscriptionStore } from '../store/subscription.store';
 
@@ -16,6 +18,7 @@ export default function useCachedResources() {
     (state) => state.setInitLibrary
   );
   const setCategoryData = useCategoryStore((state) => state.setCategoryData);
+  const setCurrencyData = useStore((state) => state.setCurrency);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
@@ -34,6 +37,10 @@ export default function useCachedResources() {
         // get init category data from storage
         const categories = await storageGetCategories();
         if (categories) setCategoryData(categories);
+
+        // get init currency from storage
+        const currency = await storageGetCurrency();
+        if (currency) setCurrencyData(currency);
 
         // Load fonts
         await Font.loadAsync({

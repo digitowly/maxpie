@@ -11,10 +11,13 @@ import Plus from '../components/Icons/Plus';
 import All from '../components/CategoryPicker/All';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import i18n from '../lang/i18n';
+import Settings from '../components/Settings/Settings';
+import SettingsIcon from '../components/Icons/SettingsIcon';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
   const [showCategoryPicker, setShowCategoryPicker] = React.useState(false);
+  const [showSettings, setShowSettings] = React.useState(false);
 
   const activeCategory = useStore((state) => state.activeCategory);
   const setActiveCategoy = useStore((state) => state.setActiveCategoy);
@@ -30,7 +33,20 @@ export default function StartScreen(): JSX.Element {
           paddingVertical: 10,
         }}
       >
-        <View style={{ width: 50 }}></View>
+        <View
+          style={{
+            width: 50,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <Pressable
+            style={{ padding: 4 }}
+            onPress={() => setShowSettings(true)}
+          >
+            <SettingsIcon />
+          </Pressable>
+        </View>
         {activeCategory ? (
           <CategorySelection
             isInList
@@ -66,6 +82,13 @@ export default function StartScreen(): JSX.Element {
         close={() => setShowCreatorModal(false)}
       >
         <SubscriptionEditor hide={() => setShowCreatorModal(false)} />
+      </MPModal>
+      <MPModal
+        title={i18n.t('settings')}
+        visible={showSettings}
+        close={() => setShowSettings(false)}
+      >
+        <Settings />
       </MPModal>
       <CategoryPicker
         isStart

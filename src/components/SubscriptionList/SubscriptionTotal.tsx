@@ -6,7 +6,7 @@ import Animated, {
   FlipInXUp,
 } from 'react-native-reanimated';
 import { p } from '../../constants/Spacing';
-import { price } from '../../helper/price';
+import { usePrice } from '../../hooks/usePrice';
 import i18n from '../../lang/i18n';
 import { Color, Interval, Month, Rate, Week, Year } from '../../types';
 import { View, Text } from '../Themed';
@@ -19,6 +19,8 @@ export default function SubscriptionTotal({
   defaultAmount,
 }: SubscriptionTotalProps): JSX.Element {
   const [rate, setRate] = React.useState<Rate>(Month);
+
+  const price = usePrice();
 
   function setNextRate() {
     if (rate.interval === Interval.perWeek) {

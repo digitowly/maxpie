@@ -1,6 +1,8 @@
 export const en = {
   all: 'all',
   expenses: 'Expenses',
+  settings: 'Settings',
+  currency: 'Currency',
   newExpense: 'New Expense',
   per: 'per',
   week: 'week',
@@ -10,6 +12,8 @@ export const en = {
   remove: 'remove',
   update: 'update',
   create: 'create',
+  cancel: 'cancel',
+  confirm: 'confirm',
   categories: 'Categories',
   createCategory: 'Create Category',
   editCategory: 'Edit Category',

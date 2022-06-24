@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Text } from '../Themed';
 import SubscriptionGestureHandler from './SubsciptionGestureHandler';
-import { price } from '../../helper/price';
 import { SubscriptionType } from '../../types';
 import { subscriptionStyles } from './Subscription.style';
 import { View } from 'react-native';
 import { useCategoryStore } from '../../store/category.store';
+import { usePrice } from '../../hooks/usePrice';
 
 interface SubscriptionProps {
   subscription: SubscriptionType;
@@ -18,6 +18,7 @@ export default function Subscription({
   showDetail,
   drag,
 }: SubscriptionProps): JSX.Element {
+  const price = usePrice();
   const { name, amount, categoryId } = subscription;
 
   const categoryData = useCategoryStore((state) => state.data);

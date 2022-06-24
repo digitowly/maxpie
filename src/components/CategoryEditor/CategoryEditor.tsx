@@ -152,7 +152,14 @@ export default function CategoryEditor({
               visible={showActionSheeht}
               hide={() => setShowActionSheet(false)}
             >
-              <DeleteButton onPress={handleDelete} />
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <DeleteButton onPress={handleDelete} />
+              </View>
             </ActionSheet>
           )}
         </View>
