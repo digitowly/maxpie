@@ -3,7 +3,7 @@
     "name": "Maxpie",
     "owner": "digitowly",
     "slug": "maxpie",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
@@ -20,7 +20,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "4",
+      "buildNumber": "1",
       "supportsTablet": false,
       "infoPlist": {
         "RCTAsyncStorageExcludeFromBackup": false,
