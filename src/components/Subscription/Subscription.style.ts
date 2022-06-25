@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { p } from '../../constants/Spacing';
 
 export const subscriptionStyles = StyleSheet.create({
   wrapper: {
@@ -6,11 +7,11 @@ export const subscriptionStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    paddingVertical: 22,
+    paddingHorizontal: p.md,
+    paddingVertical: 16,
     borderRadius: 8,
     marginVertical: 5,
-    marginHorizontal: 18,
+    marginHorizontal: p.md,
   },
   titleWrapper: {
     flexDirection: 'row',

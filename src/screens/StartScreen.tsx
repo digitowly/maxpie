@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import i18n from '../lang/i18n';
 import Settings from '../components/Settings/Settings';
 import SettingsIcon from '../components/Icons/SettingsIcon';
+import { p } from '../constants/Spacing';
 
 export default function StartScreen(): JSX.Element {
   const [showCreatorModal, setShowCreatorModal] = React.useState(false);
@@ -29,7 +30,7 @@ export default function StartScreen(): JSX.Element {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingHorizontal: 18,
+          paddingHorizontal: p.md - 1,
           paddingVertical: 10,
         }}
       >

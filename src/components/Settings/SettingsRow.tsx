@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
+import { p } from '../../constants/Spacing';
 import { Text } from '../Themed';
 
 interface SettingsRowProps {
@@ -26,7 +27,7 @@ const style = StyleSheet.create({
     backgroundColor: '#85858512',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 18,
+    marginHorizontal: p.md,
     marginVertical: 7,
     padding: 16,
     borderRadius: 4,

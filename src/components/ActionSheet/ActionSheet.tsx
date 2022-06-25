@@ -10,6 +10,7 @@ import { View } from '../Themed';
 import { Color } from '../../types';
 import MPButton from '../Buttons/MPButton';
 import i18n from '../../lang/i18n';
+import { p } from '../../constants/Spacing';
 
 interface ActionSheetProps {
   visible: boolean;
@@ -91,7 +92,7 @@ export default function ActionSheet({
         >
           <View
             style={{
-              padding: 18,
+              padding: p.md,
             }}
           >
             {children}

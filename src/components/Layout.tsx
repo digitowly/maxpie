@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import { p } from '../constants/Spacing';
 import { View } from './Themed';
 
 interface LayoutProps {
@@ -12,6 +13,6 @@ export default function Layout({ children }: LayoutProps) {
 
 const style = StyleSheet.create({
   wrapper: {
-    padding: 20,
+    padding: p.md,
   },
 });
