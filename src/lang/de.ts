@@ -17,6 +17,7 @@ export const de = {
   categories: 'Kategorien',
   createCategory: 'Kategorie erstellen',
   editCategory: 'Kategorie bearbeiten',
+  general: 'Allgemein',
   introTitle: 'Hey, schön dich zu sehen!  👋',
   introBody1:
     'Du kannst deine wiederkehrenden Augaben über das "+" Symbol oben rechts hinzufügen.',

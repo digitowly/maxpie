@@ -1,4 +1,5 @@
 import create from 'zustand';
+import i18n from '../lang/i18n';
 import { Category, Color } from '../types';
 
 interface CategoryState {
@@ -19,7 +20,12 @@ export const useCategoryStore = create<CategoryState>((set) => ({
   data: new Map([
     [
       'general',
-      { id: 'general', name: 'General', icon: '⚡️', color: Color.gray },
+      {
+        id: 'general',
+        name: i18n.t('general'),
+        icon: '⚡️',
+        color: Color.gray,
+      },
     ],
   ]),
   setCategoryData: (categoryData) =>

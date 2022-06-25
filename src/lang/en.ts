@@ -17,6 +17,7 @@ export const en = {
   categories: 'Categories',
   createCategory: 'Create Category',
   editCategory: 'Edit Category',
+  general: 'General',
   introTitle: 'Hey, great to see you!  👋',
   introBody1:
     'You can start adding your reoccuring expenses by pressing the "+" icon in the top right.',
