@@ -8,10 +8,14 @@ export type SubscriptionType = {
 };
 
 export enum Color {
-  red = 'coral',
+  red = '#DB5461',
   blue = '#00C5F0',
   green = '#00CC83',
-  orange = '#EBA901',
+  orange = 'coral',
+  yellow = '#FFE45E',
+  pink = '#FF6392',
+  dimgray = '#686963',
+  stateblue = '#7D53DE',
   gray = '#004381',
   lightgray = '#7DC4FF',
   black = '#000f1c',

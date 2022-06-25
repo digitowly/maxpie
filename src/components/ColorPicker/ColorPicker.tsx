@@ -14,17 +14,32 @@ export default function ColorPicker({
   activeColor,
   setActiveColor,
 }: ColorPickerProps): JSX.Element {
+  const row1 = colors.slice(0, 4);
+  const row2 = colors.slice(4, 8);
+
   return (
-    <View style={style.wrapper}>
-      {colors.map((color) => (
-        <ColorField
-          key={color}
-          isActive={activeColor === color}
-          color={color}
-          setActive={() => setActiveColor(color)}
-        />
-      ))}
-    </View>
+    <>
+      <View style={style.wrapper}>
+        {row1.map((color) => (
+          <ColorField
+            key={color}
+            isActive={activeColor === color}
+            color={color}
+            setActive={() => setActiveColor(color)}
+          />
+        ))}
+      </View>
+      <View style={style.wrapper}>
+        {row2.map((color) => (
+          <ColorField
+            key={color}
+            isActive={activeColor === color}
+            color={color}
+            setActive={() => setActiveColor(color)}
+          />
+        ))}
+      </View>
+    </>
   );
 }
 
