@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { p } from '../../constants/Spacing';
 import { useCategoryStore } from '../../store/category.store';
 
 interface CategeroySelectionProps {
@@ -27,7 +28,7 @@ export default function CategorySelection({
         style.wrapper,
         {
           backgroundColor: category?.color,
-          padding: isSmall ? 5 : 15,
+          padding: isSmall ? 5 : p.sm,
           width: isInList ? 'auto' : 250,
         },
       ]}
