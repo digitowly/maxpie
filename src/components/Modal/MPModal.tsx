@@ -3,6 +3,20 @@ import { Modal, StyleSheet } from 'react-native';
 import { View } from '../Themed';
 import ModalHeader, { ModalHeaderProps } from './ModalHeader';
 
+const MPModalContext = React.createContext<MPContextType>({
+  onCloseCallback: null,
+  setOnCloseCallback: null,
+});
+
+type MPContextType = {
+  onCloseCallback: (() => void) | null | undefined;
+  setOnCloseCallback: React.Dispatch<
+    React.SetStateAction<(() => void) | null | undefined>
+  > | null;
+};
+
+export const useMPModal = () => React.useContext(MPModalContext);
+
 interface ModalProps extends ModalHeaderProps {
   children: React.ReactNode;
   visible: boolean;
@@ -16,21 +30,32 @@ export default function MPModal({
   actionLabel,
   title,
 }: ModalProps): JSX.Element {
+  const [onCloseCallback, setOnCloseCallback] = React.useState<
+    (() => void) | null
+  >();
+
+  const handleClose = () => {
+    onCloseCallback && onCloseCallback();
+    close();
+  };
+
   return (
-    <Modal
-      presentationStyle='pageSheet'
-      animationType='slide'
-      onRequestClose={close}
-      visible={visible}
-    >
-      <ModalHeader
-        action={action}
-        title={title}
-        close={close}
-        actionLabel={actionLabel}
-      />
-      <View style={style.wrapper}>{children}</View>
-    </Modal>
+    <MPModalContext.Provider value={{ onCloseCallback, setOnCloseCallback }}>
+      <Modal
+        presentationStyle='pageSheet'
+        animationType='slide'
+        onRequestClose={handleClose}
+        visible={visible}
+      >
+        <ModalHeader
+          action={action}
+          title={title}
+          close={handleClose}
+          actionLabel={actionLabel}
+        />
+        <View style={style.wrapper}>{children}</View>
+      </Modal>
+    </MPModalContext.Provider>
   );
 }
 

@@ -15,6 +15,7 @@ import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
+import { useMPModal } from '../Modal/MPModal';
 import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatprProps {
@@ -45,6 +46,8 @@ export default function SubscriptionEditor({
     () => Number(amount.toString().replace(',', '.')),
     [amount]
   );
+
+  const { setOnCloseCallback } = useMPModal();
 
   const hasAllInputs = !!amount && !!name;
 
@@ -100,21 +103,24 @@ export default function SubscriptionEditor({
     // setTimeout(hide, 100);
   };
 
-  const handleUpdateSubscription = () => {
-    if (subscription) {
-      const updatedSubscription: SubscriptionType = {
-        ...subscription,
-        name,
-        amount: amountNumber,
-        categoryId,
-      };
+  React.useEffect(() => {
+    const handleUpdateSubscription = () => {
+      if (subscription) {
+        const updatedSubscription: SubscriptionType = {
+          ...subscription,
+          name,
+          amount: amountNumber,
+          categoryId,
+        };
 
-      updateSubscription(updatedSubscription);
+        updateSubscription(updatedSubscription);
 
-      // hide modal
-      hide();
-    }
-  };
+        // hide modal
+        hide();
+      }
+    };
+    if (setOnCloseCallback) setOnCloseCallback(() => handleUpdateSubscription);
+  }, [name, amountNumber, categoryId]);
 
   return (
     <>
@@ -173,7 +179,7 @@ export default function SubscriptionEditor({
             />
             {subscription ? (
               <View>
-                <>
+                {/* <>
                   {hasAllInputs && (
                     <Animated.View
                       key={hasAllInputs.toString()}
@@ -186,7 +192,7 @@ export default function SubscriptionEditor({
                       />
                     </Animated.View>
                   )}
-                </>
+                </> */}
                 <DeleteButton onPress={() => setShowActionSheet(true)} />
               </View>
             ) : (
