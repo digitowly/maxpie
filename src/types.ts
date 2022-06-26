@@ -5,6 +5,7 @@ export type SubscriptionType = {
   name: string;
   amount: number | string;
   categoryId: string;
+  reminderDate?: Date | null;
 };
 
 export enum Color {

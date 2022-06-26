@@ -15,6 +15,7 @@ import CategoryPicker from '../CategoryPicker/CategoryPicker';
 import CategorySelection from '../CategoryPicker/CategorySelection';
 import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
+import Reminder from '../Reminder/Reminder';
 import { Text, TextInput, View } from '../Themed';
 
 interface SubscriptionCreatprProps {
@@ -45,6 +46,12 @@ export default function SubscriptionEditor({
     () => Number(amount.toString().replace(',', '.')),
     [amount]
   );
+
+  const [reminderDate, setReminderDate] = React.useState<Date | null>(() =>
+    subscription?.reminderDate ? new Date(subscription.reminderDate) : null
+  );
+
+  console.log(reminderDate);
 
   const hasAllInputs = !!amount && !!name;
 
@@ -94,10 +101,11 @@ export default function SubscriptionEditor({
 
   const handleRemoveSubscription = () => {
     setShowActionSheet(false);
+
     if (subscription?.id) removeSubscription(subscription.id);
+
     // hide modal
     hide();
-    // setTimeout(hide, 100);
   };
 
   const handleUpdateSubscription = () => {
@@ -107,6 +115,7 @@ export default function SubscriptionEditor({
         name,
         amount: amountNumber,
         categoryId,
+        reminderDate,
       };
 
       updateSubscription(updatedSubscription);
@@ -164,6 +173,12 @@ export default function SubscriptionEditor({
               <CategorySelection
                 categoryId={categoryId}
                 onPress={() => setShowCategories(true)}
+              />
+              <Reminder
+                date={reminderDate}
+                updateDate={(newReminderDate) =>
+                  setReminderDate(newReminderDate)
+                }
               />
             </View>
             <CategoryPicker
