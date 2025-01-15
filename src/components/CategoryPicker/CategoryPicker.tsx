@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import i18n from '../../lang/i18n';
 import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
@@ -29,6 +29,7 @@ export default function CategoryPicker({
 
   const categoryData = useCategoryStore((state) => state.data);
   const categories = Array.from(categoryData.values());
+
   return (
     <MPModal
       title={i18n.t('categories')}
@@ -46,28 +47,26 @@ export default function CategoryPicker({
             }}
           />
         )}
-        <GestureHandlerRootView>
-          <FlatList
-            data={categories}
-            renderItem={({ item }) => (
-              <CategorySelection
-                isInList
-                onPress={() => {
-                  updateCategory(item);
-                  hide();
-                }}
-                onLongPress={() => {
-                  // prevent editing general (default) category
-                  if (item.id !== 'general') {
-                    setSelectedCategory(item);
-                    setShowCategoryEditor(true);
-                  }
-                }}
-                categoryId={item.id}
-              />
-            )}
-          />
-        </GestureHandlerRootView>
+        <FlatList
+          data={categories}
+          renderItem={({ item }) => (
+            <CategorySelection
+              isInList
+              onPress={() => {
+                updateCategory(item);
+                hide();
+              }}
+              onLongPress={() => {
+                // prevent editing general (default) category
+                if (item.id !== 'general') {
+                  setSelectedCategory(item);
+                  setShowCategoryEditor(true);
+                }
+              }}
+              categoryId={item.id}
+            />
+          )}
+        />
       </Layout>
       <MPModal
         title={

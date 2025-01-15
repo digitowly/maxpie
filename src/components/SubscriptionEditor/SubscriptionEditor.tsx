@@ -17,10 +17,7 @@ import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
 import { useMPModal } from '../Modal/MPModal';
 import { Text, TextInput, View } from '../Themed';
-import {
-  GestureHandlerRootView,
-  ScrollView,
-} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface SubscriptionCreatprProps {
   hide: () => void;
@@ -128,63 +125,62 @@ export default function SubscriptionEditor({
 
   return (
     <>
-      <GestureHandlerRootView>
-        <ScrollView style={{ minHeight: '100%' }}>
-          <Layout>
-            <View style={style.topSection}>
-              <View style={style.section}>
-                <View style={style.amountWrapper}>
-                  <TextInput
-                    autoFocus={!subscription}
-                    style={style.amountInput}
-                    value={amount.toString()}
-                    onChangeText={setAmount}
-                    placeholder='0'
-                    keyboardType='numeric'
-                    returnKeyType='done'
-                  />
-                  <Text style={style.amountCurrency}>{currency.sign}</Text>
-                </View>
-                <Text
-                  style={{
-                    color: Color.lightgray,
-                    fontWeight: 'bold',
-                    marginTop: 10,
-                  }}
-                >
-                  {i18n.t('per')} {i18n.t('month')}
-                </Text>
-              </View>
-            </View>
+      <ScrollView style={{ minHeight: '100%' }}>
+        <Layout>
+          <View style={style.topSection}>
             <View style={style.section}>
-              <MPTextInput
-                value={name}
-                onChangeText={setName}
-                placeholder={i18n.t('enterName')}
+              <View style={style.amountWrapper}>
+                <TextInput
+                  autoFocus={!subscription}
+                  style={style.amountInput}
+                  value={amount.toString()}
+                  onChangeText={setAmount}
+                  placeholder='0'
+                  keyboardType='numeric'
+                  returnKeyType='done'
+                />
+                <Text style={style.amountCurrency}>{currency.sign}</Text>
+              </View>
+              <Text
+                style={{
+                  color: Color.lightgray,
+                  fontWeight: 'bold',
+                  marginTop: 10,
+                }}
+              >
+                {i18n.t('per')} {i18n.t('month')}
+              </Text>
+            </View>
+          </View>
+          <View style={style.section}>
+            <MPTextInput
+              value={name}
+              onChangeText={setName}
+              placeholder={i18n.t('enterName')}
+            />
+          </View>
+
+          <View
+            style={{
+              alignItems: 'center',
+              height: '70%',
+              justifyContent: 'space-between',
+            }}
+          >
+            <View style={{ marginBottom: 20 }}>
+              <CategorySelection
+                categoryId={categoryId}
+                onPress={() => setShowCategories(true)}
               />
             </View>
-
-            <View
-              style={{
-                alignItems: 'center',
-                height: '70%',
-                justifyContent: 'space-between',
-              }}
-            >
-              <View style={{ marginBottom: 20 }}>
-                <CategorySelection
-                  categoryId={categoryId}
-                  onPress={() => setShowCategories(true)}
-                />
-              </View>
-              <CategoryPicker
-                updateCategory={(cat) => cat && setCategoryId(cat.id)}
-                visible={showCategories}
-                hide={() => setShowCategories(false)}
-              />
-              {subscription ? (
-                <View>
-                  {/* <>
+            <CategoryPicker
+              updateCategory={(cat) => cat && setCategoryId(cat.id)}
+              visible={showCategories}
+              hide={() => setShowCategories(false)}
+            />
+            {subscription ? (
+              <View>
+                {/* <>
                   {hasAllInputs && (
                     <Animated.View
                       key={hasAllInputs.toString()}
@@ -198,28 +194,27 @@ export default function SubscriptionEditor({
                     </Animated.View>
                   )}
                 </> */}
-                  <DeleteButton onPress={() => setShowActionSheet(true)} />
-                </View>
-              ) : (
-                <>
-                  {hasAllInputs && (
-                    <Animated.View
-                      key={hasAllInputs.toString()}
-                      entering={FadeInDown}
-                      exiting={FadeOutDown}
-                    >
-                      <MPButton
-                        title={i18n.t('create')}
-                        onPress={handleAddSubscription}
-                      />
-                    </Animated.View>
-                  )}
-                </>
-              )}
-            </View>
-          </Layout>
-        </ScrollView>
-      </GestureHandlerRootView>
+                <DeleteButton onPress={() => setShowActionSheet(true)} />
+              </View>
+            ) : (
+              <>
+                {hasAllInputs && (
+                  <Animated.View
+                    key={hasAllInputs.toString()}
+                    entering={FadeInDown}
+                    exiting={FadeOutDown}
+                  >
+                    <MPButton
+                      title={i18n.t('create')}
+                      onPress={handleAddSubscription}
+                    />
+                  </Animated.View>
+                )}
+              </>
+            )}
+          </View>
+        </Layout>
+      </ScrollView>
       <ActionSheet
         visible={showActionSheeht}
         hide={() => setShowActionSheet(false)}

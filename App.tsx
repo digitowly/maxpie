@@ -5,6 +5,7 @@ import useCachedResources from './src/hooks/useCachedResources';
 import StartScreen from './src/screens/StartScreen';
 import useColorScheme from './src/hooks/useColorScheme';
 import { Color } from './src/types';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,9 +18,11 @@ export default function App() {
   const backgroundColor = scheme === 'dark' ? Color.black : Color.white;
 
   return (
-    <SafeAreaProvider style={{ backgroundColor }}>
-      <StartScreen />
-      <StatusBar hidden />
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider style={{ backgroundColor }}>
+        <StartScreen />
+        <StatusBar hidden />
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
