@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import 'react-native-get-random-values';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,6 +17,7 @@ import MPTextInput from '../Inputs/MPTextInput';
 import Layout from '../Layout';
 import { useMPModal } from '../Modal/MPModal';
 import { Text, TextInput, View } from '../Themed';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface SubscriptionCreatprProps {
   hide: () => void;

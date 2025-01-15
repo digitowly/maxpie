@@ -29,6 +29,7 @@ export default function CategoryPicker({
 
   const categoryData = useCategoryStore((state) => state.data);
   const categories = Array.from(categoryData.values());
+
   return (
     <MPModal
       title={i18n.t('categories')}

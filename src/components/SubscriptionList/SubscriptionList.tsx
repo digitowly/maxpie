@@ -86,12 +86,12 @@ export default function SubscriptionList(): JSX.Element {
             )}
           </>
         }
-        renderItem={({ item, drag, index }) => (
+        renderItem={({ item, drag, getIndex }) => (
           <Animated.View
             key={item.id}
             entering={FadeInDown.springify()}
             exiting={FadeOutDown.springify()}
-            layout={Layout.easing(Easing.bounce).delay(index ?? 1 * 100)}
+            layout={Layout.easing(Easing.bounce).delay(getIndex() ?? 1 * 100)}
           >
             <Subscription
               drag={drag}
