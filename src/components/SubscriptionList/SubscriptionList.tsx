@@ -18,6 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import EmptyList from '../EmptyList/EmptyList';
 import EmptyCategory from '../EmptyList/EmptyCategory';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function SubscriptionList(): JSX.Element {
   const [showDetail, setShowDetail] = React.useState(false);
@@ -62,58 +63,60 @@ export default function SubscriptionList(): JSX.Element {
 
   return (
     <View style={{ flex: 1 }}>
-      <DraggableFlatList
-        style={{ height: '85%' }}
-        data={subscriptionsList}
-        keyExtractor={({ id }) => id}
-        onDragEnd={({ data }) => {
-          const dataIds = data.map((d) => d.id);
-          setLibrary({
-            categoryId: categoryId ?? 'all',
-            newSubscriptionIds: dataIds,
-          });
-        }}
-        ListHeaderComponent={
-          <>
-            {subscriptionsList.length === 0 && (
-              <>
-                {activeCategory ? (
-                  <EmptyCategory name={activeCategory.name} />
-                ) : (
-                  <EmptyList />
-                )}
-              </>
-            )}
-          </>
-        }
-        renderItem={({ item, drag, index }) => (
-          <Animated.View
-            key={item.id}
-            entering={FadeInDown.springify()}
-            exiting={FadeOutDown.springify()}
-            layout={Layout.easing(Easing.bounce).delay(index ?? 1 * 100)}
-          >
-            <Subscription
-              drag={drag}
-              subscription={item}
-              showDetail={() => {
-                setActiveSubscription(item);
-                setShowDetail(true);
-              }}
-            />
-          </Animated.View>
-        )}
-      />
+      <GestureHandlerRootView>
+        <DraggableFlatList
+          style={{ height: '85%' }}
+          data={subscriptionsList}
+          keyExtractor={({ id }) => id}
+          onDragEnd={({ data }) => {
+            const dataIds = data.map((d) => d.id);
+            setLibrary({
+              categoryId: categoryId ?? 'all',
+              newSubscriptionIds: dataIds,
+            });
+          }}
+          ListHeaderComponent={
+            <>
+              {subscriptionsList.length === 0 && (
+                <>
+                  {activeCategory ? (
+                    <EmptyCategory name={activeCategory.name} />
+                  ) : (
+                    <EmptyList />
+                  )}
+                </>
+              )}
+            </>
+          }
+          renderItem={({ item, drag, getIndex }) => (
+            <Animated.View
+              key={item.id}
+              entering={FadeInDown.springify()}
+              exiting={FadeOutDown.springify()}
+              layout={Layout.easing(Easing.bounce).delay(getIndex() ?? 1 * 100)}
+            >
+              <Subscription
+                drag={drag}
+                subscription={item}
+                showDetail={() => {
+                  setActiveSubscription(item);
+                  setShowDetail(true);
+                }}
+              />
+            </Animated.View>
+          )}
+        />
 
-      <SubscriptionTotal defaultAmount={totalAmount} />
-      {activeSubscription && (
-        <MPModal close={() => setShowDetail(false)} visible={showDetail}>
-          <SubscriptionEditor
-            hide={() => setShowDetail(false)}
-            subscription={activeSubscription}
-          />
-        </MPModal>
-      )}
+        <SubscriptionTotal defaultAmount={totalAmount} />
+        {activeSubscription && (
+          <MPModal close={() => setShowDetail(false)} visible={showDetail}>
+            <SubscriptionEditor
+              hide={() => setShowDetail(false)}
+              subscription={activeSubscription}
+            />
+          </MPModal>
+        )}
+      </GestureHandlerRootView>
     </View>
   );
 }

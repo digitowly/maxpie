@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 import i18n from '../../lang/i18n';
 import { useCategoryStore } from '../../store/category.store';
 import { Category } from '../../types';
@@ -46,26 +46,28 @@ export default function CategoryPicker({
             }}
           />
         )}
-        <FlatList
-          data={categories}
-          renderItem={({ item }) => (
-            <CategorySelection
-              isInList
-              onPress={() => {
-                updateCategory(item);
-                hide();
-              }}
-              onLongPress={() => {
-                // prevent editing general (default) category
-                if (item.id !== 'general') {
-                  setSelectedCategory(item);
-                  setShowCategoryEditor(true);
-                }
-              }}
-              categoryId={item.id}
-            />
-          )}
-        />
+        <GestureHandlerRootView>
+          <FlatList
+            data={categories}
+            renderItem={({ item }) => (
+              <CategorySelection
+                isInList
+                onPress={() => {
+                  updateCategory(item);
+                  hide();
+                }}
+                onLongPress={() => {
+                  // prevent editing general (default) category
+                  if (item.id !== 'general') {
+                    setSelectedCategory(item);
+                    setShowCategoryEditor(true);
+                  }
+                }}
+                categoryId={item.id}
+              />
+            )}
+          />
+        </GestureHandlerRootView>
       </Layout>
       <MPModal
         title={
