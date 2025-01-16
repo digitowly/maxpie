@@ -8,6 +8,7 @@
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
@@ -16,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "2",
       "supportsTablet": false,
@@ -37,6 +36,7 @@
     "web": {
       "favicon": ".src/assets/images/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "plugins": ["expo-asset", "expo-font", "expo-localization"]
   }
 }
